@@ -1,0 +1,66 @@
+﻿@page "/create"
+@inject IQuestionService QuestionService
+@inject NavigationManager NavigationManager
+@using System.Linq
+
+<h1>Create Question</h1>
+
+<EditForm Model="Question" OnValidSubmit="HandleSubmit">
+    <div class="col-5">
+        <div class="form-group">
+            <label>Question Text</label>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <InputText @bind-Value="Question.Text" class="form-control"></InputText>
+                        <span class="input-group-text" id="basic-addon1">Single Choice?</span>
+                        <div class="input-group-text">
+                            <InputCheckbox @bind-Value="Question.SingleChoice" class="form-check-input mt-0" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Answers</label>
+                <div class="row">
+                    @for (int i = 0; i < Answers.Count; i++)
+                    {
+                        int index = i;
+                        <div class="col-md-12 mb-2">
+                            <div class="input-group">
+                                <InputText @bind-Value="Answers[index].Text" class="form-control"></InputText>
+                                <div class="input-group-text">
+                                    <InputCheckbox @bind-Value="Answers[index].CorrectAnswer" class="form-check-input mt-0" />
+                                </div>
+                            </div>
+                        </div>
+                        @if (Answers[Answers.Count - 1].Text != "")
+                        {
+                            Answers.Add(new Answer());
+                        }
+                    }
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public Question Question { get; set; } = new Question();
+    [Parameter] public List<Answer> Answers { get; set; } = new List<Answer>();
+
+    protected override void OnInitialized()
+    {
+
+        Answers.Add(new Answer());
+    }
+
+    async Task HandleSubmit()
+    {
+        List<Answer> answers = Answers.Where(x => x.Text != "").ToList();
+        Question.Answers = answers;
+        await QuestionService.CreateQuestion(Question);
+        NavigationManager.NavigateTo($"/");
+    }
+}
