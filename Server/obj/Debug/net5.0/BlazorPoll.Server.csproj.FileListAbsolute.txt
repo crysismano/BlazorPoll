@@ -89,3 +89,6 @@ D:\Work\Onlab\BlazorPoll\Server\obj\Debug\net5.0\BlazorPoll.Server.dll
 D:\Work\Onlab\BlazorPoll\Server\obj\Debug\net5.0\ref\BlazorPoll.Server.dll
 D:\Work\Onlab\BlazorPoll\Server\obj\Debug\net5.0\BlazorPoll.Server.pdb
 D:\Work\Onlab\BlazorPoll\Server\obj\Debug\net5.0\BlazorPoll.Server.genruntimeconfig.cache
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

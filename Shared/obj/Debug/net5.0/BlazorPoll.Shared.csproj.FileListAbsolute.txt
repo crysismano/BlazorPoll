@@ -9,3 +9,4 @@ D:\Work\Onlab\BlazorPoll\Shared\obj\Debug\net5.0\BlazorPoll.Shared.csproj.CoreCo
 D:\Work\Onlab\BlazorPoll\Shared\obj\Debug\net5.0\BlazorPoll.Shared.dll
 D:\Work\Onlab\BlazorPoll\Shared\obj\Debug\net5.0\ref\BlazorPoll.Shared.dll
 D:\Work\Onlab\BlazorPoll\Shared\obj\Debug\net5.0\BlazorPoll.Shared.pdb
+D:\Work\Onlab\BlazorPoll\Shared\obj\Debug\net5.0\BlazorPoll.Shared.csproj.AssemblyReference.cache
