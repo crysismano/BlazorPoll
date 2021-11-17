@@ -9,6 +9,6 @@ namespace BlazorPoll.Client.Services
     public interface IQuestionService
     {
         Task<List<Question>> GetQuestions();
-        Task<List<Question>> CreateQuestion(Question question);
+        Task<List<Question>> CreateQuestion(List<Question> questions);
     }
 }

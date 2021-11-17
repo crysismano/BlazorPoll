@@ -26,13 +26,16 @@ namespace BlazorPoll.Server.Controllers
             return result;
         }
         [HttpPost]
-        public async Task<ActionResult<Question>> CreateQuestion(Question question)
+        public async Task<ActionResult<Question>> CreateQuestion(List<Question> questions)
         {
             using(var dbContextTransaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    _context.Questions.Add(question);
+                    foreach (var q in questions)
+                    {
+                        _context.Questions.Add(q);
+                    }
                     await _context.SaveChangesAsync();
                     dbContextTransaction.Commit();
                 }

@@ -11,7 +11,7 @@ namespace BlazorPoll.Shared
     {
         public int Id { get; set; }
         [Required]
-        public string Text { get; set; }
+        public string Text { get; set; } = "";
         [Required]
         public bool SingleChoice { get; set; } = true;
         public ICollection<Answer> Answers { get; set; }

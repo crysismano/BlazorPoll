@@ -16,10 +16,9 @@ namespace BlazorPoll.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Question>> CreateQuestion(Question question)
+        public async Task<List<Question>> CreateQuestion(List<Question> questions)
         {
-            List<Question> questions = new List<Question>();
-            var result = await _httpClient.PostAsJsonAsync($"questions", question);
+            var result = await _httpClient.PostAsJsonAsync($"questions", questions);
             return await result.Content.ReadFromJsonAsync<List<Question>>();
         }
 

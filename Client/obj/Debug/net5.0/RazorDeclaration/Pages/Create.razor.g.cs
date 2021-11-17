@@ -111,22 +111,28 @@ using System.Linq;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 49 "D:\Work\Onlab\BlazorPoll\Client\Pages\Create.razor"
+#line 61 "D:\Work\Onlab\BlazorPoll\Client\Pages\Create.razor"
        
-    [Parameter] public Question Question { get; set; } = new Question();
-    [Parameter] public List<Answer> Answers { get; set; } = new List<Answer>();
+    [Parameter] public List<Question> Questions { get; set; } = new List<Question>();
+    [Parameter] public List<List<Answer>> Answers { get; set; } = new List<List<Answer>>();
 
     protected override void OnInitialized()
     {
-
-        Answers.Add(new Answer());
+        Questions.Add(new Question());
+        Answers.Add(new List<Answer>());
+        Answers[Answers.Count - 1].Add(new Answer());
     }
 
     async Task HandleSubmit()
     {
-        List<Answer> answers = Answers.Where(x => x.Text != "").ToList();
-        Question.Answers = answers;
-        await QuestionService.CreateQuestion(Question);
+        List<Question> questions = Questions.Where(x => x.Text != "").ToList();
+        for (int j = 0; j<questions.Count; j++)
+        {
+            var answers = new List<Answer>();
+            answers = Answers[j].Where(x => x.Text != "").ToList();
+            questions[j].Answers = answers;
+        }
+        await QuestionService.CreateQuestion(questions);
         NavigationManager.NavigateTo($"/");
     }
 

@@ -5,62 +5,80 @@
 
 <h1>Create Question</h1>
 
-<EditForm Model="Question" OnValidSubmit="HandleSubmit">
-    <div class="col-5">
-        <div class="form-group">
-            <label>Question Text</label>
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <InputText @bind-Value="Question.Text" class="form-control"></InputText>
-                        <span class="input-group-text" id="basic-addon1">Single Choice?</span>
-                        <div class="input-group-text">
-                            <InputCheckbox @bind-Value="Question.SingleChoice" class="form-check-input mt-0" />
+<EditForm Model="Questions" OnSubmit="HandleSubmit">
+    @for (int i = 0; i < Questions.Count; i++)
+    {
+        int indexI = i; int counter = i + 1;
+
+        <div class="col-5">
+            <div class="form-group">
+                <label>@counter. Question Text</label>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <InputText @bind-Value="Questions[indexI].Text" class="form-control"></InputText>
+                            <span class="input-group-text" id="basic-addon1">Single Choice?</span>
+                            <div class="input-group-text">
+                                <InputCheckbox @bind-Value="Questions[indexI].SingleChoice" class="form-check-input mt-0" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Answers</label>
-                <div class="row">
-                    @for (int i = 0; i < Answers.Count; i++)
-                    {
-                        int index = i;
-                        <div class="col-md-12 mb-2">
-                            <div class="input-group">
-                                <InputText @bind-Value="Answers[index].Text" class="form-control"></InputText>
-                                <div class="input-group-text">
-                                    <InputCheckbox @bind-Value="Answers[index].CorrectAnswer" class="form-check-input mt-0" />
+                <div class="mb-3">
+                    <label class="form-label">Answers</label>
+                    <div class="row">
+                        @for (int j = 0; j < Answers[indexI].Count; j++)
+                        {
+                            int indexJ = j;
+                            <div class="col-md-12 mb-2">
+                                <div class="input-group">
+                                    <InputText @bind-Value="Answers[indexI][indexJ].Text" class="form-control"></InputText>
+                                    <div class="input-group-text">
+                                        <InputCheckbox @bind-Value="Answers[indexI][indexJ].CorrectAnswer" class="form-check-input mt-0" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        @if (Answers[Answers.Count - 1].Text != "")
-                        {
-                            Answers.Add(new Answer());
+                            @if (Answers[indexI][Answers[indexI].Count - 1].Text != "")
+                            {
+                                Answers[indexI].Add(new Answer());
+                            }
                         }
-                    }
+                    </div>
                 </div>
+
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-    </div>
+        @if (Questions[Questions.Count - 1].Text != "")
+        {
+            Questions.Add(new Question());
+            Answers.Add(new List<Answer>());
+            Answers[Answers.Count - 1].Add(new Answer());
+        }
+    }
+    <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
 
 @code {
-    [Parameter] public Question Question { get; set; } = new Question();
-    [Parameter] public List<Answer> Answers { get; set; } = new List<Answer>();
+    [Parameter] public List<Question> Questions { get; set; } = new List<Question>();
+    [Parameter] public List<List<Answer>> Answers { get; set; } = new List<List<Answer>>();
 
     protected override void OnInitialized()
     {
-
-        Answers.Add(new Answer());
+        Questions.Add(new Question());
+        Answers.Add(new List<Answer>());
+        Answers[Answers.Count - 1].Add(new Answer());
     }
 
     async Task HandleSubmit()
     {
-        List<Answer> answers = Answers.Where(x => x.Text != "").ToList();
-        Question.Answers = answers;
-        await QuestionService.CreateQuestion(Question);
+        List<Question> questions = Questions.Where(x => x.Text != "").ToList();
+        for (int j = 0; j<questions.Count; j++)
+        {
+            var answers = new List<Answer>();
+            answers = Answers[j].Where(x => x.Text != "").ToList();
+            questions[j].Answers = answers;
+        }
+        await QuestionService.CreateQuestion(questions);
         NavigationManager.NavigateTo($"/");
     }
 }
