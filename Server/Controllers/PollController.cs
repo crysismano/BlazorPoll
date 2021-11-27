@@ -10,32 +10,29 @@ using System.Threading.Tasks;
 
 namespace BlazorPoll.Server.Controllers
 {
-    [Route("questions")]
+    [Route("polls")]
     [ApiController]
-    public class QuestionController : ControllerBase
+    public class PollController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public QuestionController(ApplicationDbContext context)
+        public PollController(ApplicationDbContext context)
         {
             _context = context;
         }
         [HttpGet]
-        public async Task<ActionResult<List<Question>>> GetQuestions()
+        public async Task<ActionResult<List<Poll>>> GetPolls()
         {
-            var result = await _context.Questions.Include(a => a.Answers).ToListAsync();
+            var result = await _context.Polls.Include(a => a.Questions).ThenInclude(a => a.Answers).ThenInclude(a => a.Votes).ToListAsync();
             return result;
         }
         [HttpPost]
-        public async Task<ActionResult<Question>> CreateQuestion(List<Question> questions)
+        public async Task<ActionResult<Poll>> CreatePoll(Poll poll)
         {
-            using(var dbContextTransaction = _context.Database.BeginTransaction())
+            using (var dbContextTransaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    foreach (var q in questions)
-                    {
-                        _context.Questions.Add(q);
-                    }
+                    _context.Polls.Add(poll);
                     await _context.SaveChangesAsync();
                     dbContextTransaction.Commit();
                 }
@@ -44,7 +41,7 @@ namespace BlazorPoll.Server.Controllers
                     dbContextTransaction.Rollback();
                 }
             }
-            return Ok(await _context.Questions.Include(a => a.Answers).ToListAsync());
+            return Ok(await _context.Polls.Include(a => a.Questions).ThenInclude(a => a.Answers).ToListAsync());
         }
     }
 }

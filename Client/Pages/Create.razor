@@ -1,11 +1,16 @@
 ﻿@page "/create"
-@inject IQuestionService QuestionService
+@inject IPollService PollService
 @inject NavigationManager NavigationManager
 @using System.Linq
 
-<h1>Create Question</h1>
+<h1>Create Poll</h1>
+<hr/>
 
-<EditForm Model="Questions" OnSubmit="HandleSubmit">
+<EditForm Model="Poll" OnSubmit="HandleSubmit">
+    <div class="mb-5 col-5">
+        <label class="form-label font-weight-bold">Poll Name</label>
+        <InputText @bind-Value="Poll.Name" class="form-control"></InputText>
+    </div>
     @for (int i = 0; i < Questions.Count; i++)
     {
         int indexI = i; int counter = i + 1;
@@ -45,7 +50,6 @@
                         }
                     </div>
                 </div>
-
             </div>
         </div>
         @if (Questions[Questions.Count - 1].Text != "")
@@ -57,8 +61,10 @@
     }
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
+<hr />
 
 @code {
+    [Parameter] public Poll Poll { get; set; } = new Poll();
     [Parameter] public List<Question> Questions { get; set; } = new List<Question>();
     [Parameter] public List<List<Answer>> Answers { get; set; } = new List<List<Answer>>();
 
@@ -78,7 +84,8 @@
             answers = Answers[j].Where(x => x.Text != "").ToList();
             questions[j].Answers = answers;
         }
-        await QuestionService.CreateQuestion(questions);
+        Poll.Questions = questions;
+        await PollService.CreatePoll(Poll);
         NavigationManager.NavigateTo($"/");
     }
 }

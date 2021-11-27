@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlazorPoll.Client.Services
 {
-    public interface IQuestionService
+    public interface IPollService
     {
-        Task<List<Question>> GetQuestions();
-        Task<List<Question>> CreateQuestion(List<Question> questions);
+        Task<List<Poll>> GetPolls();
+        Task CreatePoll(Poll poll);
     }
 }

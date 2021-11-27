@@ -111,8 +111,9 @@ using System.Linq;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 61 "D:\Work\Onlab\BlazorPoll\Client\Pages\Create.razor"
+#line 66 "D:\Work\Onlab\BlazorPoll\Client\Pages\Create.razor"
        
+    [Parameter] public Poll Poll { get; set; } = new Poll();
     [Parameter] public List<Question> Questions { get; set; } = new List<Question>();
     [Parameter] public List<List<Answer>> Answers { get; set; } = new List<List<Answer>>();
 
@@ -132,7 +133,8 @@ using System.Linq;
             answers = Answers[j].Where(x => x.Text != "").ToList();
             questions[j].Answers = answers;
         }
-        await QuestionService.CreateQuestion(questions);
+        Poll.Questions = questions;
+        await PollService.CreatePoll(Poll);
         NavigationManager.NavigateTo($"/");
     }
 
@@ -140,7 +142,7 @@ using System.Linq;
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IQuestionService QuestionService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IPollService PollService { get; set; }
     }
 }
 #pragma warning restore 1591

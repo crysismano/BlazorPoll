@@ -105,18 +105,18 @@ using BlazorPoll.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 33 "D:\Work\Onlab\BlazorPoll\Client\Pages\Index.razor"
+#line 31 "D:\Work\Onlab\BlazorPoll\Client\Pages\Index.razor"
       
-    [Parameter]public List<Question> Questions { get; set; } = new List<Question>();
+    [Parameter]public List<Poll> Polls { get; set; } = new List<Poll>();
     protected override async Task OnInitializedAsync()
     {
-        Questions = await QuestionService.GetQuestions();
+        Polls = await PollService.GetPolls();
     }
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IQuestionService QuestionService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IPollService PollService { get; set; }
     }
 }
 #pragma warning restore 1591

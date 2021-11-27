@@ -195,13 +195,13 @@
       "mscorlib.dll": "sha256-heWnofXFSc\/TfAxrWpjQxeuS+nlIOs9YycfI2QGXGM8=",
       "netstandard.dll": "sha256-mbIVAluJ7cAx0vUQshB\/c1zEIK5JcYwIYxo\/BQ\/meRU=",
       "System.Private.CoreLib.dll": "sha256-FrZbEyy47f3RDuj77R5oHUGxSGEDgRRxykTjImrLqfM=",
-      "BlazorPoll.Shared.dll": "sha256-kILAEofDuHRUUgGD4pxk6tZQQx0nZ5M\/Q5lZxxRmJpI=",
-      "BlazorPoll.Client.dll": "sha256-TZP7iWYa\/\/FSX\/GBVUzjn8twFZsUA4lpO0EpuYmG0s0="
+      "BlazorPoll.Shared.dll": "sha256-lkREnSwA5mCTmg\/bvzUv\/QiHds5KC3LQmPvJOYkyuQs=",
+      "BlazorPoll.Client.dll": "sha256-noH3lrLktSzSGX3Evjf5U\/gLmqKHpArCheK04GutLGw="
     },
     "lazyAssembly": null,
     "pdb": {
-      "BlazorPoll.Shared.pdb": "sha256-liwvadfFHUShVlHFYa6WQNcrtZwVYHs21Q582eOnzAg=",
-      "BlazorPoll.Client.pdb": "sha256-SSZgJJnW1OcQn8XLyHR0GWZcxcaJSWkgiCYuRjTgbZE="
+      "BlazorPoll.Shared.pdb": "sha256-x7zvP5TnZNuFvUoUXmhyecoa4i5AwepVvcJWB+MgEt0=",
+      "BlazorPoll.Client.pdb": "sha256-VznjpQiDbpg7VI3BL2887bwVI8Fh6Be+4+nFCbX6OCc="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-5ttRwTa4Rar530elwLdfGDeH9I9NX9MPyDl6zLi9uug=",

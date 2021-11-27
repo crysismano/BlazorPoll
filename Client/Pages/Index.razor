@@ -1,9 +1,9 @@
 ﻿@page "/"
-@inject IQuestionService QuestionService
+@inject IPollService PollService
 
-<h3>Questions</h3>
+<h3>Polls</h3>
 
-@if (Questions.Count == 0)
+@if (Polls.Count == 0)
 {
     <span>It's Empty!</span>
 }
@@ -13,17 +13,15 @@ else
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Question</th>
-                <th>Single Choice</th>
+                <th>Poll Name</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var q in Questions)
+            @foreach (var p in Polls)
             {
                 <tr>
-                    <td>@q.Id</td>
-                    <td>@q.Text</td>
-                    <td>@q.SingleChoice</td>
+                    <td>@p.Id</td>
+                    <td>@p.Name</td>
                 </tr>
             }
         </tbody>
@@ -31,9 +29,9 @@ else
 }
 
 @code{
-    [Parameter]public List<Question> Questions { get; set; } = new List<Question>();
+    [Parameter]public List<Poll> Polls { get; set; } = new List<Poll>();
     protected override async Task OnInitializedAsync()
     {
-        Questions = await QuestionService.GetQuestions();
+        Polls = await PollService.GetPolls();
     }
 }
