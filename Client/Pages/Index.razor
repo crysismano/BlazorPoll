@@ -1,5 +1,7 @@
 ﻿@page "/"
 @inject IPollService PollService
+@inject NavigationManager NavigationManager
+@implements IAsyncDisposable
 
 <h3>Polls</h3>
 
@@ -14,6 +16,7 @@ else
             <tr>
                 <th>Id</th>
                 <th>Poll Name</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +25,7 @@ else
                 <tr>
                     <td>@p.Id</td>
                     <td>@p.Name</td>
+                    <td><button class="btn btn-primary">Start</button></td>
                 </tr>
             }
         </tbody>
@@ -29,9 +33,21 @@ else
 }
 
 @code{
-    [Parameter]public List<Poll> Polls { get; set; } = new List<Poll>();
+    [Parameter] public List<Poll> Polls { get; set; } = new List<Poll>();
+    private HubConnection hubConnection;
     protected override async Task OnInitializedAsync()
     {
         Polls = await PollService.GetPolls();
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
+            .Build();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
     }
 }

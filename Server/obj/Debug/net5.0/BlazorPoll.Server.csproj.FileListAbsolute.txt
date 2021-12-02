@@ -92,3 +92,13 @@ D:\Work\Onlab\BlazorPoll\Server\obj\Debug\net5.0\BlazorPoll.Server.genruntimecon
 D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
 D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\System.Net.WebSockets.WebSocketProtocol.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Common.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Client.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Common.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll

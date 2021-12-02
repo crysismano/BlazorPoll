@@ -1,4 +1,5 @@
 using BlazorPoll.Server.Data;
+using BlazorPoll.Server.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -39,7 +40,10 @@ namespace BlazorPoll.Server
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
             services.AddControllers().AddNewtonsoftJson();
-
+            services.AddResponseCompression(options => {
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
+            });
+            services.AddSignalR(options => options.EnableDetailedErrors = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +68,7 @@ namespace BlazorPoll.Server
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHub<PollHub>("/pollhub");
                 endpoints.MapFallbackToFile("index.html");
             });
         }

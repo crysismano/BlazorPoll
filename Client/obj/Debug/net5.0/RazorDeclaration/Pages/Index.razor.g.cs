@@ -96,8 +96,15 @@ using BlazorPoll.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 13 "D:\Work\Onlab\BlazorPoll\Client\_Imports.razor"
+using Microsoft.AspNetCore.SignalR.Client;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase, IAsyncDisposable
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -105,17 +112,30 @@ using BlazorPoll.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 31 "D:\Work\Onlab\BlazorPoll\Client\Pages\Index.razor"
+#line 35 "D:\Work\Onlab\BlazorPoll\Client\Pages\Index.razor"
       
-    [Parameter]public List<Poll> Polls { get; set; } = new List<Poll>();
+    [Parameter] public List<Poll> Polls { get; set; } = new List<Poll>();
+    private HubConnection hubConnection;
     protected override async Task OnInitializedAsync()
     {
         Polls = await PollService.GetPolls();
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
+            .Build();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IPollService PollService { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7t1l9NLPTN7lEsbcT5QDDdciSgBHYzi91+pIP9JSZkOJljpw4bRnz8GAOfFUn6BG172/gf3+TvG1xnSxs6fBVw==",
+  "dgSpecHash": "c8gP6O1cMv4VUB1kqxTSnZIaVGI2essZxgAUI4mfpXhk2e1TYNMKptPvS+23XCUBvEfYc9//FkAJNWEzRTUZNg==",
   "success": true,
   "projectFilePath": "D:\\Work\\Onlab\\BlazorPoll\\Client\\BlazorPoll.Client.csproj",
   "expectedPackageFiles": [
@@ -11,7 +11,15 @@
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.components.web\\5.0.11\\microsoft.aspnetcore.components.web.5.0.11.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly\\5.0.11\\microsoft.aspnetcore.components.webassembly.5.0.11.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.devserver\\5.0.11\\microsoft.aspnetcore.components.webassembly.devserver.5.0.11.nupkg.sha512",
+    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.connections.abstractions\\5.0.11\\microsoft.aspnetcore.connections.abstractions.5.0.11.nupkg.sha512",
+    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.http.connections.client\\5.0.11\\microsoft.aspnetcore.http.connections.client.5.0.11.nupkg.sha512",
+    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.http.connections.common\\5.0.11\\microsoft.aspnetcore.http.connections.common.5.0.11.nupkg.sha512",
+    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.11\\microsoft.aspnetcore.http.features.5.0.11.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.metadata\\5.0.11\\microsoft.aspnetcore.metadata.5.0.11.nupkg.sha512",
+    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.signalr.client\\5.0.11\\microsoft.aspnetcore.signalr.client.5.0.11.nupkg.sha512",
+    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.signalr.client.core\\5.0.11\\microsoft.aspnetcore.signalr.client.core.5.0.11.nupkg.sha512",
+    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.signalr.common\\5.0.11\\microsoft.aspnetcore.signalr.common.5.0.11.nupkg.sha512",
+    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.signalr.protocols.json\\5.0.11\\microsoft.aspnetcore.signalr.protocols.json.5.0.11.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.extensions.configuration\\5.0.0\\microsoft.extensions.configuration.5.0.0.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.extensions.configuration.binder\\5.0.0\\microsoft.extensions.configuration.binder.5.0.0.nupkg.sha512",
@@ -25,11 +33,12 @@
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.extensions.logging\\5.0.0\\microsoft.extensions.logging.5.0.0.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",
-    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.1\\microsoft.extensions.primitives.5.0.1.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.jsinterop\\5.0.11\\microsoft.jsinterop.5.0.11.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.jsinterop.webassembly\\5.0.11\\microsoft.jsinterop.webassembly.5.0.11.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\system.net.http.json\\5.0.0\\system.net.http.json.5.0.0.nupkg.sha512",
+    "C:\\Users\\Zoli\\.nuget\\packages\\system.threading.channels\\5.0.0\\system.threading.channels.5.0.0.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.netcore.app.runtime.browser-wasm\\5.0.11\\microsoft.netcore.app.runtime.browser-wasm.5.0.11.nupkg.sha512"
   ],
   "logs": []
