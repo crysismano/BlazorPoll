@@ -23,7 +23,13 @@ namespace BlazorPoll.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
             services.AddControllers();
             services.AddRazorPages();
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -53,7 +59,7 @@ namespace BlazorPoll.Server
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCors("CorsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

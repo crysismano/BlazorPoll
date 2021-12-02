@@ -200,6 +200,7 @@
     },
     "lazyAssembly": null,
     "pdb": {
+      "BlazorPoll.Shared.pdb": "sha256-x7zvP5TnZNuFvUoUXmhyecoa4i5AwepVvcJWB+MgEt0=",
       "BlazorPoll.Client.pdb": "sha256-VznjpQiDbpg7VI3BL2887bwVI8Fh6Be+4+nFCbX6OCc="
     },
     "runtime": {
