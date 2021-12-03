@@ -204,12 +204,12 @@
       "netstandard.dll": "sha256-mbIVAluJ7cAx0vUQshB\/c1zEIK5JcYwIYxo\/BQ\/meRU=",
       "System.Private.CoreLib.dll": "sha256-FrZbEyy47f3RDuj77R5oHUGxSGEDgRRxykTjImrLqfM=",
       "BlazorPoll.Shared.dll": "sha256-lkREnSwA5mCTmg\/bvzUv\/QiHds5KC3LQmPvJOYkyuQs=",
-      "BlazorPoll.Client.dll": "sha256-HS2LW+Cd1ZpjJNNHDH5EzZV90bx271hQayEDykoMK3c="
+      "BlazorPoll.Client.dll": "sha256-CM9oTs1aWILRabTX3Xx+cQufIMOObTXqE+vj66jGnu0="
     },
     "lazyAssembly": null,
     "pdb": {
       "BlazorPoll.Shared.pdb": "sha256-x7zvP5TnZNuFvUoUXmhyecoa4i5AwepVvcJWB+MgEt0=",
-      "BlazorPoll.Client.pdb": "sha256-uO6U+IAC4jge0yVTBxAkXzfdanaWcHUFAvCDw8P5PAw="
+      "BlazorPoll.Client.pdb": "sha256-th5XDKiirOFm9fe0OERzJewgVgW+Hm7VgmaRPslYukw="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-5ttRwTa4Rar530elwLdfGDeH9I9NX9MPyDl6zLi9uug=",

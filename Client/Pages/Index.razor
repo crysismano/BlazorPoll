@@ -25,7 +25,7 @@ else
                 <tr>
                     <td>@p.Id</td>
                     <td>@p.Name</td>
-                    <td><button class="btn btn-primary">Start</button></td>
+                    <td><button class="btn btn-primary" @onclick="()=>StartPoll(p)">Start</button></td>
                 </tr>
             }
         </tbody>
@@ -33,14 +33,24 @@ else
 }
 
 @code{
+    
     [Parameter] public List<Poll> Polls { get; set; } = new List<Poll>();
+    
     private HubConnection hubConnection;
+    
     protected override async Task OnInitializedAsync()
     {
         Polls = await PollService.GetPolls();
         hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
             .Build();
+        await hubConnection.StartAsync();
+    }
+
+    private async Task StartPoll(Poll poll)
+    {
+        await hubConnection.SendAsync("SendPoll", poll);
+        //TODO: Navigate to control page
     }
 
     public async ValueTask DisposeAsync()
@@ -50,4 +60,6 @@ else
             await hubConnection.DisposeAsync();
         }
     }
+
+
 }

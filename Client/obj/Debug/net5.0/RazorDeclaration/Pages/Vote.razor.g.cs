@@ -103,8 +103,8 @@ using Microsoft.AspNetCore.SignalR.Client;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase, IAsyncDisposable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/vote")]
+    public partial class Vote : Microsoft.AspNetCore.Components.ComponentBase, IAsyncDisposable
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -112,26 +112,26 @@ using Microsoft.AspNetCore.SignalR.Client;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 35 "D:\Work\Onlab\BlazorPoll\Client\Pages\Index.razor"
-      
-    
-    [Parameter] public List<Poll> Polls { get; set; } = new List<Poll>();
-    
+#line 14 "D:\Work\Onlab\BlazorPoll\Client\Pages\Vote.razor"
+       
+
     private HubConnection hubConnection;
-    
+
+    public Question Question { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        Polls = await PollService.GetPolls();
         hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
             .Build();
-        await hubConnection.StartAsync();
-    }
 
-    private async Task StartPoll(Poll poll)
-    {
-        await hubConnection.SendAsync("SendPoll", poll);
-        //TODO: Navigate to control page
+        hubConnection.On<Question>("ReceiveQuestion", (question) =>
+        {
+            Question = question;
+
+            StateHasChanged();
+        });
+        await hubConnection.StartAsync();
     }
 
     public async ValueTask DisposeAsync()
@@ -142,13 +142,10 @@ using Microsoft.AspNetCore.SignalR.Client;
         }
     }
 
-
-
 #line default
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IPollService PollService { get; set; }
     }
 }
 #pragma warning restore 1591
