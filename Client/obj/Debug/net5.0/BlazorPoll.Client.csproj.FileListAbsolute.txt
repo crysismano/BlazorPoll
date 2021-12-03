@@ -654,5 +654,7 @@ D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\build-gz\E46HcV9D.gz
 D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\build-gz\iTB6f2o6.gz
 D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\build-gz\Hh94KLrI.gz
 D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\build-gz\EHc8ronV.gz
-D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\RazorDeclaration\Pages\Vote.razor.g.cs
-D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\Razor\Pages\Vote.razor.g.cs
+D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\RazorDeclaration\Pages\PollControl.razor.g.cs
+D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\Razor\Pages\PollControl.razor.g.cs
+D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\RazorDeclaration\Pages\Voting.razor.g.cs
+D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\Razor\Pages\Voting.razor.g.cs

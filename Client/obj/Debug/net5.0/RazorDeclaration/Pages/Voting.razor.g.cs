@@ -103,8 +103,8 @@ using Microsoft.AspNetCore.SignalR.Client;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase, IAsyncDisposable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/vote")]
+    public partial class Voting : Microsoft.AspNetCore.Components.ComponentBase, IAsyncDisposable
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -112,27 +112,75 @@ using Microsoft.AspNetCore.SignalR.Client;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 35 "D:\Work\Onlab\BlazorPoll\Client\Pages\Index.razor"
-      
-    
-    [Parameter] public List<Poll> Polls { get; set; } = new List<Poll>();
-    
+#line 49 "D:\Work\Onlab\BlazorPoll\Client\Pages\Voting.razor"
+       
+
     private HubConnection hubConnection;
-    
+
+    public Question Question { get; set; }
+
+    List<int> AnswerIds { get; set; } = new List<int>();
+
+    public bool Answered => AnswerIds.Count == 0;
+
+    private bool voteCasted;
+
     protected override async Task OnInitializedAsync()
     {
-        Polls = await PollService.GetPolls();
         hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
             .Build();
+
+        hubConnection.On<Question>("ReceiveQuestion", (question) =>
+        {
+            voteCasted = false;
+            AnswerIds.Clear();
+            Question = question;
+            StateHasChanged();
+        });
         await hubConnection.StartAsync();
     }
 
-    private async Task StartPoll(Poll poll)
+    public void RadioBoxClicked(int answerId)
     {
-        await hubConnection.SendAsync("SendPoll", poll);
-        NavigationManager.NavigateTo($"/pollcontrol");
+        AnswerIds.Clear();
+        AnswerIds.Add(answerId);
+        StateHasChanged();
+        Console.WriteLine(answerId);
     }
+
+    public void CheckBoxClicked(int answerId, object checkedValue)
+    {
+        if ((bool)checkedValue)
+        {
+            if (!AnswerIds.Contains(answerId))
+            {
+                AnswerIds.Add(answerId);
+            }
+        }
+        else
+        {
+            if (AnswerIds.Contains(answerId))
+            {
+                AnswerIds.Remove(answerId);
+            }
+        }
+        StateHasChanged();
+    }
+
+    public async Task CastVote()
+    {
+        List<Vote> votes = new List<Vote>();
+        foreach (var a in AnswerIds)
+        {
+            Vote v = new Vote();
+            v.AnswerId = a;
+            votes.Add(v);
+        }
+        await VoteService.CastVote(votes);
+        voteCasted = true;
+    }
+
 
     public async ValueTask DisposeAsync()
     {
@@ -142,13 +190,11 @@ using Microsoft.AspNetCore.SignalR.Client;
         }
     }
 
-
-
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IVoteService VoteService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IPollService PollService { get; set; }
     }
 }
 #pragma warning restore 1591

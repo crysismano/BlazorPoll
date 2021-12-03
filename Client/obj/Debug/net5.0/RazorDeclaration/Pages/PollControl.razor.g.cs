@@ -103,8 +103,8 @@ using Microsoft.AspNetCore.SignalR.Client;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/vote")]
-    public partial class Vote : Microsoft.AspNetCore.Components.ComponentBase, IAsyncDisposable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/pollcontrol")]
+    public partial class PollControl : Microsoft.AspNetCore.Components.ComponentBase, IAsyncDisposable
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -112,12 +112,15 @@ using Microsoft.AspNetCore.SignalR.Client;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 14 "D:\Work\Onlab\BlazorPoll\Client\Pages\Vote.razor"
+#line 15 "D:\Work\Onlab\BlazorPoll\Client\Pages\PollControl.razor"
        
-
     private HubConnection hubConnection;
 
-    public Question Question { get; set; }
+    public Poll Poll { get; set; }
+
+    private int _currentQuestionIdx;
+
+    private int _remainingNumberOfQuestions;
 
     protected override async Task OnInitializedAsync()
     {
@@ -125,13 +128,25 @@ using Microsoft.AspNetCore.SignalR.Client;
             .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
             .Build();
 
-        hubConnection.On<Question>("ReceiveQuestion", (question) =>
+        hubConnection.On<Poll>("ReceivePoll", (poll) =>
         {
-            Question = question;
-
+            Poll = poll;
+            _currentQuestionIdx = 0;
+            _remainingNumberOfQuestions = poll.Questions.Count() - 1;
             StateHasChanged();
         });
         await hubConnection.StartAsync();
+    }
+
+    public async Task GetNextQuestion()
+    {
+        if (_currentQuestionIdx + 1 < Poll.Questions.Count)
+        {
+            await hubConnection.SendAsync("GetNextQuestion");
+            _remainingNumberOfQuestions--;
+            _currentQuestionIdx++;
+            StateHasChanged();
+        }
     }
 
     public async ValueTask DisposeAsync()

@@ -50,7 +50,7 @@ else
     private async Task StartPoll(Poll poll)
     {
         await hubConnection.SendAsync("SendPoll", poll);
-        //TODO: Navigate to control page
+        NavigationManager.NavigateTo($"/pollcontrol");
     }
 
     public async ValueTask DisposeAsync()

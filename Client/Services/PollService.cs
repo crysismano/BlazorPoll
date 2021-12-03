@@ -18,7 +18,7 @@ namespace BlazorPoll.Client.Services
 
         public async Task CreatePoll(Poll poll)
         {
-            var result = await _httpClient.PostAsJsonAsync($"polls", poll);
+            await _httpClient.PostAsJsonAsync($"polls", poll);
         }
 
         public async Task<List<Poll>> GetPolls()

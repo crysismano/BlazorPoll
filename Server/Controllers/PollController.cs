@@ -32,7 +32,7 @@ namespace BlazorPoll.Server.Controllers
             {
                 try
                 {
-                    _context.Polls.Add(poll);
+                    await _context.Polls.AddAsync(poll);
                     await _context.SaveChangesAsync();
                     dbContextTransaction.Commit();
                 }

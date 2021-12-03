@@ -16,14 +16,25 @@ namespace BlazorPoll.Server.Hubs
         {
             _currentQuestionIdx = 0;
             ActivePoll = poll;
+            await Clients.All.SendAsync("ReceivePoll", ActivePoll);
             await Clients.All.SendAsync("ReceiveQuestion", ActivePoll.Questions.FirstOrDefault());
+        }
+
+        public async Task GetNextQuestion()
+        {
+            if(_currentQuestionIdx + 1 < ActivePoll.Questions.Count )
+            {
+                _currentQuestionIdx++;
+                await Clients.All.SendAsync("ReceiveQuestion", ActivePoll.Questions.ElementAtOrDefault(_currentQuestionIdx));
+            }
         }
 
         public override async Task OnConnectedAsync()
         {
             if (ActivePoll is not null)
             {
-                await Clients.Caller.SendAsync("ReceiveQuestion", ActivePoll.Questions.FirstOrDefault());
+                await Clients.Caller.SendAsync("ReceivePoll", ActivePoll);
+                await Clients.Caller.SendAsync("ReceiveQuestion", ActivePoll.Questions.ElementAtOrDefault(_currentQuestionIdx));
             }
         }
     }
