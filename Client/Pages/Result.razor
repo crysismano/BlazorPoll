@@ -15,10 +15,10 @@ else
         @foreach (var a in Question.Answers)
         {
 
-            <dt>
-                @a.Text
+            <dt class="col-3">
+                @a.Text:
             </dt>
-            <dd>
+            <dd class="col-9">
                 @Results[a.Id]
             </dd>
         }
