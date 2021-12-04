@@ -1,6 +1,8 @@
 *.suo
 *.user
+.vs
 _ReSharper.*
 bin
 obj
 packages
+.vs/BlazorPoll/v16/.suo
