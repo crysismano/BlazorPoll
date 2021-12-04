@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "c8gP6O1cMv4VUB1kqxTSnZIaVGI2essZxgAUI4mfpXhk2e1TYNMKptPvS+23XCUBvEfYc9//FkAJNWEzRTUZNg==",
+  "dgSpecHash": "wVEx+nSrIGzAjfUWWi+mZfOnrWP8QTZvciayedI2+Zc6CwVLe8BJHbssE1kiwtiYgAeV7PWF+KxbKJX36rnK6A==",
   "success": true,
   "projectFilePath": "D:\\Work\\Onlab\\BlazorPoll\\Client\\BlazorPoll.Client.csproj",
   "expectedPackageFiles": [
@@ -39,7 +39,7 @@
     "C:\\Users\\Zoli\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\system.net.http.json\\5.0.0\\system.net.http.json.5.0.0.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\system.threading.channels\\5.0.0\\system.threading.channels.5.0.0.nupkg.sha512",
-    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.netcore.app.runtime.browser-wasm\\5.0.11\\microsoft.netcore.app.runtime.browser-wasm.5.0.11.nupkg.sha512"
+    "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.netcore.app.runtime.browser-wasm\\5.0.12\\microsoft.netcore.app.runtime.browser-wasm.5.0.12.nupkg.sha512"
   ],
   "logs": []
 }
