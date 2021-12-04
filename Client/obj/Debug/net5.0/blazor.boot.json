@@ -7,6 +7,7 @@
   "linkerEnabled": false,
   "resources": {
     "assembly": {
+      "Blazored.LocalStorage.dll": "sha256-ItMv+HytRb8SgPKYiz75PK0k+DFgN1E247PZT\/8lODs=",
       "Microsoft.AspNetCore.Authorization.dll": "sha256-ktaWu1p6pD2yy7T\/20KVYU7oihmpYm3jrPw4QHb7J+k=",
       "Microsoft.AspNetCore.Components.dll": "sha256-alrtyx++CQU1VO\/6akeZFBPsYgrGGm+Z5ax9\/kaPM3k=",
       "Microsoft.AspNetCore.Components.Forms.dll": "sha256-tr1KtXqIVmQYhG+jn6wsF6Jx7IlPblELW1fqJ5EY2XM=",
@@ -204,12 +205,12 @@
       "netstandard.dll": "sha256-dOHF0zANIyA4WS496iWrAkTuEFWSWrXJjZj2pQQHrMA=",
       "System.Private.CoreLib.dll": "sha256-C96+zv+mWW0XzMG520oRgAG1lHVY8xzWGc6oc6rFjws=",
       "BlazorPoll.Shared.dll": "sha256-lkREnSwA5mCTmg\/bvzUv\/QiHds5KC3LQmPvJOYkyuQs=",
-      "BlazorPoll.Client.dll": "sha256-6E\/r1sCHlSTVAhICAHVJMIh1Y0xDmkXuppzugIrXTIc="
+      "BlazorPoll.Client.dll": "sha256-mFLDChbt80WUrZN4bVaOzDubS0Z8dBMbOe5vbX9fotM="
     },
     "lazyAssembly": null,
     "pdb": {
       "BlazorPoll.Shared.pdb": "sha256-x7zvP5TnZNuFvUoUXmhyecoa4i5AwepVvcJWB+MgEt0=",
-      "BlazorPoll.Client.pdb": "sha256-patJ7lccOKE0MMv1IDwQ2N2l5eLFB8uxL01IRczpjhs="
+      "BlazorPoll.Client.pdb": "sha256-FH\/A6fNW6czfr0gqAlo+DMjEZsmOm0j9bzHaZeE1LQQ="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-ir9YCVnnk7popgsYUkvitfGA4WpkP1ydPh\/ENHnxGys=",

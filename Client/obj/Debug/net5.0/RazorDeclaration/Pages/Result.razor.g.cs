@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace BlazorPoll.Client
+namespace BlazorPoll.Client.Pages
 {
     #line hidden
     using System;
@@ -110,13 +110,62 @@ using Blazored.LocalStorage;
 #line default
 #line hidden
 #nullable disable
-    public partial class App : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/result")]
+    public partial class Result : Microsoft.AspNetCore.Components.ComponentBase, IAsyncDisposable
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 27 "D:\Work\Onlab\BlazorPoll\Client\Pages\Result.razor"
+       
+    HubConnection hubConnection;
+    public Question Question { get; set; }
+    public Dictionary<int, int> Results { get; set; } = new Dictionary<int, int>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+        .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
+        .Build();
+
+        hubConnection.On<Question>("ReceiveQuestion", (question) =>
+        {
+            Results.Clear();
+            Question = question;
+            foreach (var a in question.Answers)
+            {
+                Results.Add(a.Id, 0);
+            }
+            StateHasChanged();
+        });
+
+
+        hubConnection.On<List<Vote>>("ReceiveVotes", (votes) =>
+        {
+            foreach (var v in votes)
+            {
+                Results[v.AnswerId]++;
+            }
+            StateHasChanged();
+        });
+        await hubConnection.StartAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }
 }
 #pragma warning restore 1591

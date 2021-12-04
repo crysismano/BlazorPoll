@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "wVEx+nSrIGzAjfUWWi+mZfOnrWP8QTZvciayedI2+Zc6CwVLe8BJHbssE1kiwtiYgAeV7PWF+KxbKJX36rnK6A==",
+  "dgSpecHash": "REVKk1oyQGbZFPrMbC9DSEx1c5WPtsl3ZnqukOcwLqjkYLVHitx6/KCSxXzxSpRv9THjMe2w5Fl7zLflRXOKUQ==",
   "success": true,
   "projectFilePath": "D:\\Work\\Onlab\\BlazorPoll\\Client\\BlazorPoll.Client.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Zoli\\.nuget\\packages\\blazored.localstorage\\4.1.5\\blazored.localstorage.4.1.5.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.authorization\\5.0.11\\microsoft.aspnetcore.authorization.5.0.11.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.components\\5.0.11\\microsoft.aspnetcore.components.5.0.11.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\5.0.11\\microsoft.aspnetcore.components.analyzers.5.0.11.nupkg.sha512",

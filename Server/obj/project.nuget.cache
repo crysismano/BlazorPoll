@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "zdmQsfHSnl8rlQoH0gLk/mvTRD1//L1UAKj0SrxOhxKFR9IO0fac/2kWSRcBQUBJe0NbNbunjG62Cl4dekWREA==",
+  "dgSpecHash": "9co9Io6Q3ryoEP2M6ipczvnAfASRl4ObG3rKW9X7epuRmsx39t4JLwaOOxMhtS5fH2jqXyAMmUBJa3zQGKMSGg==",
   "success": true,
   "projectFilePath": "D:\\Work\\Onlab\\BlazorPoll\\Server\\BlazorPoll.Server.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Zoli\\.nuget\\packages\\blazored.localstorage\\4.1.5\\blazored.localstorage.4.1.5.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Zoli\\.nuget\\packages\\microsoft.aspnetcore.authorization\\5.0.11\\microsoft.aspnetcore.authorization.5.0.11.nupkg.sha512",

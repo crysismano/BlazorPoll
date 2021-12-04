@@ -658,3 +658,8 @@ D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\build-gz\JKazW+IW.gz
 D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\build-gz\4kWKzEW4.gz
 D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\build-gz\WDbEIkf3.gz
 D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\build-gz\yx6ExU3G.gz
+D:\Work\Onlab\BlazorPoll\Client\bin\Debug\net5.0\wwwroot\_framework\Blazored.LocalStorage.dll.gz
+D:\Work\Onlab\BlazorPoll\Client\bin\Debug\net5.0\wwwroot\_framework\Blazored.LocalStorage.dll
+D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\build-gz\ZRQAeHP9.gz
+D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\RazorDeclaration\Pages\Result.razor.g.cs
+D:\Work\Onlab\BlazorPoll\Client\obj\Debug\net5.0\Razor\Pages\Result.razor.g.cs

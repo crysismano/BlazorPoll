@@ -102,3 +102,4 @@ D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Cl
 D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Common.dll
 D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
 D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+D:\Work\Onlab\BlazorPoll\Server\bin\Debug\net5.0\Blazored.LocalStorage.dll

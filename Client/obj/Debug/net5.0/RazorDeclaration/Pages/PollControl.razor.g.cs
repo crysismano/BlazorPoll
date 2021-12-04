@@ -103,6 +103,13 @@ using Microsoft.AspNetCore.SignalR.Client;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 14 "D:\Work\Onlab\BlazorPoll\Client\_Imports.razor"
+using Blazored.LocalStorage;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/pollcontrol")]
     public partial class PollControl : Microsoft.AspNetCore.Components.ComponentBase, IAsyncDisposable
     {

@@ -103,6 +103,13 @@ using Microsoft.AspNetCore.SignalR.Client;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 14 "D:\Work\Onlab\BlazorPoll\Client\_Imports.razor"
+using Blazored.LocalStorage;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/vote")]
     public partial class Voting : Microsoft.AspNetCore.Components.ComponentBase, IAsyncDisposable
     {
@@ -112,7 +119,7 @@ using Microsoft.AspNetCore.SignalR.Client;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 49 "D:\Work\Onlab\BlazorPoll\Client\Pages\Voting.razor"
+#line 50 "D:\Work\Onlab\BlazorPoll\Client\Pages\Voting.razor"
        
 
     private HubConnection hubConnection;
@@ -131,9 +138,17 @@ using Microsoft.AspNetCore.SignalR.Client;
             .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
             .Build();
 
-        hubConnection.On<Question>("ReceiveQuestion", (question) =>
+        hubConnection.On<Question>("ReceiveQuestion", async (question) =>
         {
-            voteCasted = false;
+            int previousQuestionId = await LocalStorage.GetItemAsync<int>("PreviousQuestionId");
+            if (previousQuestionId == question.Id)
+            {
+                voteCasted = true;
+            }
+            else
+            {
+                voteCasted = false;
+            }
             AnswerIds.Clear();
             Question = question;
             StateHasChanged();
@@ -178,6 +193,7 @@ using Microsoft.AspNetCore.SignalR.Client;
             votes.Add(v);
         }
         await VoteService.CastVote(votes);
+        await LocalStorage.SetItemAsync("PreviousQuestionId", Question.Id);
         voteCasted = true;
     }
 
@@ -193,6 +209,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ILocalStorageService LocalStorage { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IVoteService VoteService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }

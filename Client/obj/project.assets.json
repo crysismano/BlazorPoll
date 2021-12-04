@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "Blazored.LocalStorage/4.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "5.0.5"
+        },
+        "compile": {
+          "lib/net5.0/Blazored.LocalStorage.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/Blazored.LocalStorage.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Authorization/5.0.11": {
         "type": "package",
         "dependencies": {
@@ -432,6 +444,18 @@
       }
     },
     "net5.0/browser-wasm": {
+      "Blazored.LocalStorage/4.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "5.0.5"
+        },
+        "compile": {
+          "lib/net5.0/Blazored.LocalStorage.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/Blazored.LocalStorage.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Authorization/5.0.11": {
         "type": "package",
         "dependencies": {
@@ -863,6 +887,20 @@
     }
   },
   "libraries": {
+    "Blazored.LocalStorage/4.1.5": {
+      "sha512": "i9v27ScPOsHv6skc+isE+DZ/mtR53w019Nq2/MnjvpiLV2otbnqqyxfiYnXAU0Ho6MBIvAS2gdf+odbAyDZPzw==",
+      "type": "package",
+      "path": "blazored.localstorage/4.1.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "blazored.localstorage.4.1.5.nupkg.sha512",
+        "blazored.localstorage.nuspec",
+        "icon.png",
+        "lib/net5.0/Blazored.LocalStorage.dll",
+        "lib/netstandard2.1/Blazored.LocalStorage.dll"
+      ]
+    },
     "Microsoft.AspNetCore.Authorization/5.0.11": {
       "sha512": "LlxMpRykUVpM+KesasvJXKvB+6kYMW4QHldsIT1y8Diwaxf0U70aVvVp1crZbLIAdRF+4Che5iSh4Xrv2wTW5w==",
       "type": "package",
@@ -1571,6 +1609,7 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "BlazorPoll.Shared >= 1.0.0",
+      "Blazored.LocalStorage >= 4.1.5",
       "Microsoft.AspNetCore.Components.WebAssembly >= 5.0.11",
       "Microsoft.AspNetCore.Components.WebAssembly.DevServer >= 5.0.11",
       "Microsoft.AspNetCore.SignalR.Client >= 5.0.11",
@@ -1628,6 +1667,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "Blazored.LocalStorage": {
+            "target": "Package",
+            "version": "[4.1.5, )"
+          },
           "Microsoft.AspNetCore.Components.WebAssembly": {
             "target": "Package",
             "version": "[5.0.11, )"

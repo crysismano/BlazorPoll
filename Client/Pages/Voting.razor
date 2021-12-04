@@ -2,6 +2,7 @@
 @implements IAsyncDisposable
 @inject NavigationManager NavigationManager
 @inject IVoteService VoteService
+@inject ILocalStorageService LocalStorage
 
 @if (Question is null)
 {
@@ -42,7 +43,7 @@ else
     }
     else
     {
-        <p>Thank you for voting!</p>
+        <p>Thank you for voting! Please wait for the next question.</p>
     }
 }
 
@@ -64,9 +65,17 @@ else
             .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
             .Build();
 
-        hubConnection.On<Question>("ReceiveQuestion", (question) =>
+        hubConnection.On<Question>("ReceiveQuestion", async (question) =>
         {
-            voteCasted = false;
+            int previousQuestionId = await LocalStorage.GetItemAsync<int>("PreviousQuestionId");
+            if (previousQuestionId == question.Id)
+            {
+                voteCasted = true;
+            }
+            else
+            {
+                voteCasted = false;
+            }
             AnswerIds.Clear();
             Question = question;
             StateHasChanged();
@@ -111,6 +120,7 @@ else
             votes.Add(v);
         }
         await VoteService.CastVote(votes);
+        await LocalStorage.SetItemAsync("PreviousQuestionId", Question.Id);
         voteCasted = true;
     }
 

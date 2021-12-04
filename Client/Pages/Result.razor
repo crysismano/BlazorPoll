@@ -1,0 +1,68 @@
+﻿@page "/result"
+@inject NavigationManager NavigationManager
+@implements IAsyncDisposable
+
+
+@if (Question is null)
+{
+    <p>Please wait..</p>
+}
+else
+{
+    <h2>@Question.Text</h2>
+    <hr />
+    <dl class="row">
+        @foreach (var a in Question.Answers)
+        {
+
+            <dt>
+                @a.Text
+            </dt>
+            <dd>
+                @Results[a.Id]
+            </dd>
+        }
+    </dl>
+}
+@code {
+    HubConnection hubConnection;
+    public Question Question { get; set; }
+    public Dictionary<int, int> Results { get; set; } = new Dictionary<int, int>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+        .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
+        .Build();
+
+        hubConnection.On<Question>("ReceiveQuestion", (question) =>
+        {
+            Results.Clear();
+            Question = question;
+            foreach (var a in question.Answers)
+            {
+                Results.Add(a.Id, 0);
+            }
+            StateHasChanged();
+        });
+
+
+        hubConnection.On<List<Vote>>("ReceiveVotes", (votes) =>
+        {
+            foreach (var v in votes)
+            {
+                Results[v.AnswerId]++;
+            }
+            StateHasChanged();
+        });
+        await hubConnection.StartAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

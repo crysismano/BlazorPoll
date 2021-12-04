@@ -1,7 +1,9 @@
 ﻿using BlazorPoll.Client.Pages;
 using BlazorPoll.Server.Data;
+using BlazorPoll.Server.Hubs;
 using BlazorPoll.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +17,11 @@ namespace BlazorPoll.Server.Controllers
     {
 
         private readonly ApplicationDbContext _context;
-        public VoteController(ApplicationDbContext context)
+        private readonly IHubContext<PollHub> _hubContext;
+        public VoteController(ApplicationDbContext context, IHubContext<PollHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpPost]
@@ -36,6 +40,7 @@ namespace BlazorPoll.Server.Controllers
                     dbContextTransaction.Rollback();
                 }
             }
+            await _hubContext.Clients.All.SendAsync("ReceiveVotes", votes);
         }
     }
 }
