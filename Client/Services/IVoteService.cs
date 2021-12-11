@@ -9,6 +9,6 @@ namespace BlazorPoll.Client.Services
 {
     public interface IVoteService
     {
-        public Task CastVote(List<Vote> votes);
+        public Task CastVote(int questionId, List<int> answerIds);
     }
 }

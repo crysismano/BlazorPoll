@@ -4,6 +4,7 @@ using BlazorPoll.Server.Hubs;
 using BlazorPoll.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,22 +26,25 @@ namespace BlazorPoll.Server.Controllers
         }
 
         [HttpPost]
-        public async Task CastVote(List<Vote> votes)
+        public async Task CastVote(Vote v)
         {
             using (var dbContextTransaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    await _context.AddRangeAsync(votes);
-                    await _context.SaveChangesAsync();
+                    foreach(var ai in v.AnswerIds)
+                    {
+                        await _context.Answers.Where(x => x.Id == ai).UpdateFromQueryAsync(x => new Answer { Votes = x.Votes +1 });
+                    }
                     dbContextTransaction.Commit();
+                    var question = await _context.Questions.Include(x => x.Answers).FirstOrDefaultAsync(x => x.Id == v.QuestionId);
+                    await _hubContext.Clients.All.SendAsync("ReceiveVotes", question);
                 }
                 catch (Exception)
                 {
                     dbContextTransaction.Rollback();
                 }
             }
-            await _hubContext.Clients.All.SendAsync("ReceiveVotes", votes);
         }
     }
 }

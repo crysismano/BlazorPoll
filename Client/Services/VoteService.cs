@@ -16,9 +16,9 @@ namespace BlazorPoll.Client.Services
         {
             _httpClient = httpClient;
         }
-        public async Task CastVote(List<Vote> votes)
+        public async Task CastVote(int questionId, List<int> answerIds)
         {
-            await _httpClient.PostAsJsonAsync("vote", votes);
+            await _httpClient.PostAsJsonAsync("vote", new Vote {QuestionId = questionId, AnswerIds = answerIds });
         }
     }
 }

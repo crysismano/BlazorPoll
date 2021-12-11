@@ -18,6 +18,6 @@ namespace BlazorPoll.Shared
         public Question Question { get; set; }
         [Required]
         public bool CorrectAnswer { get; set; } = false;
-        public ICollection<Vote> Votes { get; set; }
+        public int Votes { get; set; }
     }
 }
