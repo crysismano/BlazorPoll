@@ -22,7 +22,7 @@ namespace BlazorPoll.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Poll>>> GetPolls()
         {
-            var result = await _context.Polls.Include(a => a.Questions).ThenInclude(a => a.Answers).ThenInclude(a => a.Votes).ToListAsync();
+            var result = await _context.Polls.Include(a => a.Questions).ThenInclude(a => a.Answers).ToListAsync();
             return result;
         }
         [HttpPost]

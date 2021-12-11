@@ -19,7 +19,8 @@ else
                 @a.Text:
             </dt>
             <dd class="col-9">
-                @Results[a.Id]
+                @a.Votes @if (_isShowingCorrectAnswer && a.CorrectAnswer)
+                {<i class="fas fa-check"></i>}
             </dd>
         }
     </dl>
@@ -27,34 +28,33 @@ else
 @code {
     HubConnection hubConnection;
     public Question Question { get; set; }
-    public Dictionary<int, int> Results { get; set; } = new Dictionary<int, int>();
+    private bool _isShowingCorrectAnswer;
 
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-        .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
-        .Build();
+            .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
+            .Build();
 
         hubConnection.On<Question>("ReceiveQuestion", (question) =>
         {
-            Results.Clear();
+            _isShowingCorrectAnswer = false;
             Question = question;
-            foreach (var a in question.Answers)
-            {
-                Results.Add(a.Id, 0);
-            }
             StateHasChanged();
         });
 
-
-        hubConnection.On<List<Vote>>("ReceiveVotes", (votes) =>
+        hubConnection.On("ShowResult", () =>
         {
-            foreach (var v in votes)
-            {
-                Results[v.AnswerId]++;
-            }
+            _isShowingCorrectAnswer = true;
             StateHasChanged();
         });
+
+        hubConnection.On("Update", () =>
+        {
+            Console.Write("I RECEIVED THE VOTE!");
+            StateHasChanged();
+        });
+
         await hubConnection.StartAsync();
     }
 

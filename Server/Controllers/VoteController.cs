@@ -18,11 +18,9 @@ namespace BlazorPoll.Server.Controllers
     {
 
         private readonly ApplicationDbContext _context;
-        private readonly IHubContext<PollHub> _hubContext;
-        public VoteController(ApplicationDbContext context, IHubContext<PollHub> hubContext)
+        public VoteController(ApplicationDbContext context)
         {
             _context = context;
-            _hubContext = hubContext;
         }
 
         [HttpPost]
@@ -36,15 +34,23 @@ namespace BlazorPoll.Server.Controllers
                     {
                         await _context.Answers.Where(x => x.Id == ai).UpdateFromQueryAsync(x => new Answer { Votes = x.Votes +1 });
                     }
-                    dbContextTransaction.Commit();
-                    var question = await _context.Questions.Include(x => x.Answers).FirstOrDefaultAsync(x => x.Id == v.QuestionId);
-                    await _hubContext.Clients.All.SendAsync("ReceiveVotes", question);
-                }
+                    dbContextTransaction.Commit();                }
                 catch (Exception)
                 {
                     dbContextTransaction.Rollback();
                 }
             }
+        }
+
+        [HttpGet("{questionId}")]
+        public async Task<ActionResult<Question>>GetQuestion(int questionId)
+        {
+            var question = await _context.Questions.Where(x => x.Id == questionId).Include(x => x.Answers).SingleOrDefaultAsync();
+            if(question == null)
+            {
+                return NotFound();
+            }
+            return question;
         }
     }
 }

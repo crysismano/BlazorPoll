@@ -80,6 +80,13 @@ else
             Question = question;
             StateHasChanged();
         });
+
+        hubConnection.On("ShowResult", () =>
+        {
+            voteCasted = true;
+            StateHasChanged();
+        });
+
         await hubConnection.StartAsync();
     }
 
@@ -112,14 +119,8 @@ else
 
     public async Task CastVote()
     {
-        List<Vote> votes = new List<Vote>();
-        foreach (var a in AnswerIds)
-        {
-            Vote v = new Vote();
-            v.AnswerId = a;
-            votes.Add(v);
-        }
-        await VoteService.CastVote(votes);
+        await VoteService.CastVote(Question.Id, AnswerIds);
+        await hubConnection.SendAsync("SendVote");
         await LocalStorage.SetItemAsync("PreviousQuestionId", Question.Id);
         voteCasted = true;
     }

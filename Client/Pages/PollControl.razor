@@ -8,6 +8,7 @@
 else
 {
     <h1>Poll: @Poll.Name</h1>
+    <hr />
     <h1>Question:@Poll.Questions.ElementAt(_currentQuestionIdx).Text </h1>
     <h3>Remaing questions: @_remainingNumberOfQuestions</h3>
     <button type="button" class="btn btn-primary" @onclick="GetNextQuestion">NEXT!</button>
@@ -21,17 +22,21 @@ else
 
     private int _remainingNumberOfQuestions;
 
+    private bool _isShowingResult;
+
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
             .Build();
 
-        hubConnection.On<Poll>("ReceivePoll", (poll) =>
+        hubConnection.On<Poll, int>("ReceivePoll", (poll, currentQuestionIdx) =>
         {
+            _isShowingResult = false;
+            Console.WriteLine(_isShowingResult);
             Poll = poll;
-            _currentQuestionIdx = 0;
-            _remainingNumberOfQuestions = poll.Questions.Count() - 1;
+            _currentQuestionIdx = currentQuestionIdx;
+            _remainingNumberOfQuestions = poll.Questions.Count() - 1 - currentQuestionIdx;
             StateHasChanged();
         });
         await hubConnection.StartAsync();
@@ -39,13 +44,26 @@ else
 
     public async Task GetNextQuestion()
     {
-        if (_currentQuestionIdx + 1 < Poll.Questions.Count)
+        if (_isShowingResult)
         {
-            await hubConnection.SendAsync("GetNextQuestion");
-            _remainingNumberOfQuestions--;
-            _currentQuestionIdx++;
-            StateHasChanged();
+            if (_currentQuestionIdx + 1 < Poll.Questions.Count)
+            {
+                await hubConnection.SendAsync("GetNextQuestion");
+                _remainingNumberOfQuestions--;
+                _currentQuestionIdx++;
+                _isShowingResult = !_isShowingResult;
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/");
+            }
         }
+        else
+        {
+            await hubConnection.SendAsync("ShowResult");
+            _isShowingResult = !_isShowingResult;
+        }
+        StateHasChanged();
     }
 
     public async ValueTask DisposeAsync()
