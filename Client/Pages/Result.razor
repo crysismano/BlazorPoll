@@ -46,18 +46,12 @@ else
         hubConnection.On("ShowResult", () =>
         {
             _isShowingCorrectAnswer = true;
-            Console.WriteLine("KEKW");
             StateHasChanged();
         });
 
         hubConnection.On("Update", async () =>
         {
-            Console.WriteLine("I RECEIVED THE VOTE!");
             Question = await PollService.GetQuestion(Question.Id);
-            foreach(var a in Question.Answers)
-            {
-                Console.WriteLine(a.Votes);
-            }
             StateHasChanged();
         });
 

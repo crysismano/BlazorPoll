@@ -33,7 +33,6 @@ else
         hubConnection.On<Poll, int>("ReceivePoll", (poll, currentQuestionIdx) =>
         {
             _isShowingResult = false;
-            Console.WriteLine(_isShowingResult);
             Poll = poll;
             _currentQuestionIdx = currentQuestionIdx;
             _remainingNumberOfQuestions = poll.Questions.Count() - 1 - currentQuestionIdx;
