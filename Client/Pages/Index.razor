@@ -16,7 +16,7 @@ else
             <tr>
                 <th>Id</th>
                 <th>Poll Name</th>
-                <th>Action</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,7 +25,10 @@ else
                 <tr>
                     <td>@p.Id</td>
                     <td>@p.Name</td>
-                    <td><button class="btn btn-primary" @onclick="()=>StartPoll(p)">Start</button></td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="()=>StartPoll(p)">Start</button>
+                        <button class="btn btn-danger" @onclick="()=>RemovePoll(p.Id)">Remove</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -33,11 +36,11 @@ else
 }
 
 @code{
-    
+
     [Parameter] public List<Poll> Polls { get; set; } = new List<Poll>();
-    
+
     private HubConnection hubConnection;
-    
+
     protected override async Task OnInitializedAsync()
     {
         Polls = await PollService.GetPolls();
@@ -51,6 +54,13 @@ else
     {
         await hubConnection.SendAsync("SendPoll", poll);
         NavigationManager.NavigateTo($"/pollcontrol");
+    }
+
+    private async Task RemovePoll(int pollId)
+    {
+        await PollService.RemovePoll(pollId);
+        Polls = await PollService.GetPolls();
+        StateHasChanged();
     }
 
     public async ValueTask DisposeAsync()

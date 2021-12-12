@@ -75,5 +75,13 @@ namespace BlazorPoll.Server.Controllers
             }
             return question;
         }
+
+        [HttpDelete("{pollId}")]
+        public async Task DeletePoll(int pollId)
+        {
+            var poll = await _context.Polls.Where(x => x.Id == pollId).SingleOrDefaultAsync();
+            _context.Polls.Remove(poll);
+            await _context.SaveChangesAsync();
+        }
     }
 }
