@@ -11,7 +11,7 @@ namespace BlazorPoll.Server.Hubs
     {
         private static int _currentQuestionIdx;
         private static bool _isShowingResult;
-        public static Poll ActivePoll { get; set; }
+        private static Poll ActivePoll { get; set; }
         
         public async Task SendPoll(Poll poll)
         {
