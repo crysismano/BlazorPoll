@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorPoll.Server.Controllers
 {
-    [Route("polls")]
+    [Route("api/[controller]")]
     [ApiController]
     public class PollController : ControllerBase
     {
@@ -26,7 +26,8 @@ namespace BlazorPoll.Server.Controllers
             return result;
         }
         [HttpPost]
-        public async Task<ActionResult<Poll>> CreatePoll(Poll poll)
+        [Route("[action]")]
+        public async Task<ActionResult<Poll>> PostPoll([FromBody]Poll poll)
         {
             using (var dbContextTransaction = _context.Database.BeginTransaction())
             {
@@ -42,6 +43,37 @@ namespace BlazorPoll.Server.Controllers
                 }
             }
             return Ok(await _context.Polls.Include(a => a.Questions).ThenInclude(a => a.Answers).ToListAsync());
+        }
+        [HttpPost]
+        [Route("[action]")]
+        public async Task PostVote([FromBody]Vote v)
+        {
+            using (var dbContextTransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    foreach (var ai in v.AnswerIds)
+                    {
+                        await _context.Answers.Where(x => x.Id == ai).UpdateFromQueryAsync(x => new Answer { Votes = x.Votes + 1 });
+                    }
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback();
+                }
+            }
+        }
+
+        [HttpGet("{questionId}")]
+        public async Task<ActionResult<Question>> GetQuestion(int questionId)
+        {
+            var question = await _context.Questions.Where(x => x.Id == questionId).Include(x => x.Answers).SingleOrDefaultAsync();
+            if (question == null)
+            {
+                return NotFound();
+            }
+            return question;
         }
     }
 }

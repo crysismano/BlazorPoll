@@ -10,5 +10,7 @@ namespace BlazorPoll.Client.Services
     {
         Task<List<Poll>> GetPolls();
         Task CreatePoll(Poll poll);
+        Task CastVote(int questionId, List<int> answerIds);
+        Task<Question> GetQuestion(int questionId);
     }
 }

@@ -1,7 +1,7 @@
 ﻿@page "/result"
 @inject NavigationManager NavigationManager
 @implements IAsyncDisposable
-
+@inject IPollService PollService
 
 @if (Question is null)
 {
@@ -46,12 +46,18 @@ else
         hubConnection.On("ShowResult", () =>
         {
             _isShowingCorrectAnswer = true;
+            Console.WriteLine("KEKW");
             StateHasChanged();
         });
 
-        hubConnection.On("Update", () =>
+        hubConnection.On("Update", async () =>
         {
-            Console.Write("I RECEIVED THE VOTE!");
+            Console.WriteLine("I RECEIVED THE VOTE!");
+            Question = await PollService.GetQuestion(Question.Id);
+            foreach(var a in Question.Answers)
+            {
+                Console.WriteLine(a.Votes);
+            }
             StateHasChanged();
         });
 

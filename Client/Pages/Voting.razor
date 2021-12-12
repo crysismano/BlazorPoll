@@ -1,8 +1,8 @@
 ﻿@page "/vote"
 @implements IAsyncDisposable
 @inject NavigationManager NavigationManager
-@inject IVoteService VoteService
 @inject ILocalStorageService LocalStorage
+@inject IPollService PollService
 
 @if (Question is null)
 {
@@ -119,7 +119,7 @@ else
 
     public async Task CastVote()
     {
-        await VoteService.CastVote(Question.Id, AnswerIds);
+        await PollService.CastVote(Question.Id, AnswerIds);
         await hubConnection.SendAsync("SendVote");
         await LocalStorage.SetItemAsync("PreviousQuestionId", Question.Id);
         voteCasted = true;
