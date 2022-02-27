@@ -1,0 +1,135 @@
+﻿@page "/vote"
+@implements IAsyncDisposable
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorage
+@inject IPollService PollService
+
+@if (Question is null)
+{
+    <p>No question here....</p>
+}
+else
+{
+    if (!voteCasted)
+    {
+        <EditForm Model="Question" OnSubmit="CastVote">
+            <h1>@Question.Text</h1>
+            @if (Question.SingleChoice)
+            {
+                @foreach (var a in Question.Answers)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" value="@a.Id" @onchange="eventArgs => RadioBoxClicked(a.Id)" name="answers" type="radio" id="@a.Id">
+                        <label class="form-check-label" for="@a.Id">
+                            @a.Text
+                        </label>
+                    </div>
+                }
+            }
+            else
+            {
+                @foreach (var a in Question.Answers)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" @onchange="eventArgs => { CheckBoxClicked(a.Id, eventArgs.Value); }" type="checkbox" value="" id="@a.Id">
+                        <label class="form-check-label" for="@a.Id">
+                            @a.Text
+                        </label>
+                    </div>
+                }
+            }
+            <button type="submit" class="btn btn-primary" disabled=@(Answered)>Vote</button>
+        </EditForm>
+    }
+    else
+    {
+        <p>Thank you for voting! Please wait for the next question.</p>
+    }
+}
+
+@code {
+
+    private HubConnection hubConnection;
+
+    public Question Question { get; set; }
+
+    List<int> AnswerIds { get; set; } = new List<int>();
+
+    public bool Answered => AnswerIds.Count == 0;
+
+    private bool voteCasted;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
+            .Build();
+
+        hubConnection.On<Question>("ReceiveQuestion", async (question) =>
+        {
+            int previousQuestionId = await LocalStorage.GetItemAsync<int>("PreviousQuestionId");
+            if (previousQuestionId == question.Id)
+            {
+                voteCasted = true;
+            }
+            else
+            {
+                voteCasted = false;
+            }
+            AnswerIds.Clear();
+            Question = question;
+            StateHasChanged();
+        });
+
+        hubConnection.On("ShowResult", () =>
+        {
+            voteCasted = true;
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    public void RadioBoxClicked(int answerId)
+    {
+        AnswerIds.Clear();
+        AnswerIds.Add(answerId);
+        StateHasChanged();
+    }
+
+    public void CheckBoxClicked(int answerId, object checkedValue)
+    {
+        if ((bool)checkedValue)
+        {
+            if (!AnswerIds.Contains(answerId))
+            {
+                AnswerIds.Add(answerId);
+            }
+        }
+        else
+        {
+            if (AnswerIds.Contains(answerId))
+            {
+                AnswerIds.Remove(answerId);
+            }
+        }
+        StateHasChanged();
+    }
+
+    public async Task CastVote()
+    {
+        await PollService.CastVote(Question.Id, AnswerIds);
+        await hubConnection.SendAsync("SendVote");
+        await LocalStorage.SetItemAsync("PreviousQuestionId", Question.Id);
+        voteCasted = true;
+    }
+
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

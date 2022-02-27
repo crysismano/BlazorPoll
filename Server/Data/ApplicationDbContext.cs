@@ -11,7 +11,7 @@ namespace BlazorPoll.Server.Data
     {
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
-
+        public DbSet<Poll> Polls { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
            : base(options)
         {
@@ -20,9 +20,9 @@ namespace BlazorPoll.Server.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             builder.Entity<Question>().ToTable("Question");
             builder.Entity<Answer>().ToTable("Answer");
+            builder.Entity<Poll>().ToTable("Poll");
         }
     }
 }

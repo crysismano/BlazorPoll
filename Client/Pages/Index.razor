@@ -1,9 +1,11 @@
 ﻿@page "/"
-@inject IQuestionService QuestionService
+@inject IPollService PollService
+@inject NavigationManager NavigationManager
+@implements IAsyncDisposable
 
-<h3>Questions</h3>
+<h3>Polls</h3>
 
-@if (Questions.Count == 0)
+@if (Polls.Count == 0)
 {
     <span>It's Empty!</span>
 }
@@ -13,17 +15,20 @@ else
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Question</th>
-                <th>Single Choice</th>
+                <th>Poll Name</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var q in Questions)
+            @foreach (var p in Polls)
             {
                 <tr>
-                    <td>@q.Id</td>
-                    <td>@q.Text</td>
-                    <td>@q.SingleChoice</td>
+                    <td>@p.Id</td>
+                    <td>@p.Name</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="()=>StartPoll(p)">Start</button>
+                        <button class="btn btn-danger" @onclick="()=>RemovePoll(p.Id)">Remove</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -31,9 +36,40 @@ else
 }
 
 @code{
-    [Parameter]public List<Question> Questions { get; set; } = new List<Question>();
+
+    [Parameter] public List<Poll> Polls { get; set; } = new List<Poll>();
+
+    private HubConnection hubConnection;
+
     protected override async Task OnInitializedAsync()
     {
-        Questions = await QuestionService.GetQuestions();
+        Polls = await PollService.GetPolls();
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
+            .Build();
+        await hubConnection.StartAsync();
     }
+
+    private async Task StartPoll(Poll poll)
+    {
+        await hubConnection.SendAsync("SendPoll", poll);
+        NavigationManager.NavigateTo($"/pollcontrol");
+    }
+
+    private async Task RemovePoll(int pollId)
+    {
+        await PollService.RemovePoll(pollId);
+        Polls = await PollService.GetPolls();
+        StateHasChanged();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+
+
 }

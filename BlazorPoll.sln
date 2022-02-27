@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorPoll.Server", "Server\BlazorPoll.Server.csproj", "{3C9485F5-A945-412B-BABC-87AD97C72F24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorPoll.Server", "Server\BlazorPoll.Server.csproj", "{3C9485F5-A945-412B-BABC-87AD97C72F24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorPoll.Client", "Client\BlazorPoll.Client.csproj", "{2B67A8E0-3745-4E30-B777-DE03A53D9EE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorPoll.Client", "Client\BlazorPoll.Client.csproj", "{2B67A8E0-3745-4E30-B777-DE03A53D9EE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorPoll.Shared", "Shared\BlazorPoll.Shared.csproj", "{9A22E531-4117-43DC-B0CD-E41050A61BD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorPoll.Shared", "Shared\BlazorPoll.Shared.csproj", "{9A22E531-4117-43DC-B0CD-E41050A61BD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

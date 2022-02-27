@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BlazorPoll.Shared
@@ -17,5 +18,6 @@ namespace BlazorPoll.Shared
         public Question Question { get; set; }
         [Required]
         public bool CorrectAnswer { get; set; } = false;
+        public int Votes { get; set; }
     }
 }

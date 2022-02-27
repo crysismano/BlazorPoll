@@ -1,4 +1,5 @@
 using BlazorPoll.Server.Data;
+using BlazorPoll.Server.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -23,7 +24,13 @@ namespace BlazorPoll.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
             services.AddControllers();
             services.AddRazorPages();
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -32,6 +39,11 @@ namespace BlazorPoll.Server
             .AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+            services.AddControllers().AddNewtonsoftJson();
+            services.AddResponseCompression(options => {
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
+            });
+            services.AddSignalR(options => options.EnableDetailedErrors = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,11 +63,12 @@ namespace BlazorPoll.Server
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCors("CorsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHub<PollHub>("/pollhub");
                 endpoints.MapFallbackToFile("index.html");
             });
         }

@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using BlazorPoll.Client.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +20,10 @@ namespace BlazorPoll.Client
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddScoped<IQuestionService, QuestionService>();
+            builder.Services.AddScoped<IPollService, PollService>();
+            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddBlazoredLocalStorage(config =>
+            config.JsonSerializerOptions.WriteIndented = true);
             await builder.Build().RunAsync();
         }
     }
