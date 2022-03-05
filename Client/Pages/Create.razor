@@ -21,7 +21,7 @@
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="input-group">
-                            <InputText @bind-Value="Questions[indexI].Text" class="form-control"></InputText>
+                            <input @bind="Questions[indexI].Text" @bind:event="oninput" class="form-control">
                             <span class="input-group-text" id="basic-addon1">Single Choice?</span>
                             <div class="input-group-text">
                                 <InputCheckbox @bind-Value="Questions[indexI].SingleChoice" class="form-check-input mt-0" />
@@ -37,7 +37,7 @@
                             int indexJ = j;
                             <div class="col-md-12 mb-2">
                                 <div class="input-group">
-                                    <InputText @bind-Value="Answers[indexI][indexJ].Text" class="form-control"></InputText>
+                                    <input @bind="Answers[indexI][indexJ].Text" @bind:event="oninput" class="form-control">
                                     <div class="input-group-text">
                                         <InputCheckbox @bind-Value="Answers[indexI][indexJ].CorrectAnswer" class="form-check-input mt-0" />
                                     </div>
