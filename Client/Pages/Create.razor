@@ -24,7 +24,7 @@
                             <input @bind="Questions[indexI].Text" @bind:event="oninput" class="form-control">
                             <span class="input-group-text" id="basic-addon1">Single Choice?</span>
                             <div class="input-group-text">
-                                <InputCheckbox @bind-Value="Questions[indexI].SingleChoice" class="form-check-input mt-0" />
+                                <input type="checkbox" @bind="Questions[indexI].SingleChoice" class="form-check-input mt-0" >
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                                 <div class="input-group">
                                     <input @bind="Answers[indexI][indexJ].Text" @bind:event="oninput" class="form-control">
                                     <div class="input-group-text">
-                                        <InputCheckbox @bind-Value="Answers[indexI][indexJ].CorrectAnswer" class="form-check-input mt-0" />
+                                        <input type="checkbox" @bind="Answers[indexI][indexJ].CorrectAnswer" class="form-check-input mt-0" >
                                     </div>
                                 </div>
                             </div>
