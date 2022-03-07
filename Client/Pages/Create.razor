@@ -9,7 +9,7 @@
 <EditForm Model="Poll" OnSubmit="HandleSubmit">
     <div class="mb-5 col-5">
         <label class="form-label font-weight-bold">Poll Name</label>
-        <InputText @bind-Value="Poll.Name" class="form-control"></InputText>
+        <input @bind="Poll.Name" class="form-control"></input>
     </div>
     @for (int i = 0; i < Questions.Count; i++)
     {

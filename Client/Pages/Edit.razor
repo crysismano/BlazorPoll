@@ -1,0 +1,7 @@
+﻿@page "/edit/{pollId:int}"
+
+<h3>Poll ID: @PollId</h3>
+
+@code {
+    [Parameter] public int PollId { get; set; }
+}
