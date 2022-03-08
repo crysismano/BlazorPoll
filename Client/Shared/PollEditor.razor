@@ -63,17 +63,20 @@
 <hr />
 
 @code {
-    [Parameter] public EventCallback HandleSubmit { get; set; }
-    [Parameter] public string Title { get; set; }
-    [Parameter] public Poll Poll { get; set; } = new Poll();
-    [Parameter] public List<Question> Questions { get; set; } = new List<Question>();
-    [Parameter] public List<List<Answer>> Answers { get; set; } = new List<List<Answer>>();
+        [Parameter] public EventCallback HandleSubmit { get; set; }
+        [Parameter] public string Title { get; set; }
+        [Parameter] public Poll Poll { get; set; } = new Poll();
+        [Parameter] public List<Question> Questions { get; set; } = new List<Question>();
+        [Parameter] public List<List<Answer>> Answers { get; set; } = new List<List<Answer>>();
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
-        Questions.Add(new Question());
-        Answers.Add(new List<Answer>());
-        Answers[Answers.Count - 1].Add(new Answer());
+        if (Poll.Name == null)
+        {
+            Questions.Add(new Question());
+            Answers.Add(new List<Answer>());
+            Answers[Answers.Count - 1].Add(new Answer());
+        }
     }
 
     //async Task HandleSubmit()
