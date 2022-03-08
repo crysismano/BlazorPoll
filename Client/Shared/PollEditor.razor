@@ -1,8 +1,4 @@
-﻿@inject IPollService PollService
-@inject NavigationManager NavigationManager
-@using System.Linq
-
-<h1>Create Poll</h1>
+﻿<h1>Create Poll</h1>
 <hr />
 
 <EditForm Model="Poll" OnSubmit="HandleSubmit">
@@ -63,21 +59,12 @@
 <hr />
 
 @code {
-        [Parameter] public EventCallback HandleSubmit { get; set; }
-        [Parameter] public string Title { get; set; }
-        [Parameter] public Poll Poll { get; set; }
-        [Parameter] public List<Question> Questions { get; set; }
-        [Parameter] public List<List<Answer>> Answers { get; set; }
+    [Parameter] public EventCallback HandleSubmit { get; set; }
+    [Parameter] public string Title { get; set; }
+    [Parameter] public Poll Poll { get; set; }
+    [Parameter] public List<Question> Questions { get; set; }
+    [Parameter] public List<List<Answer>> Answers { get; set; }
 
-    protected override void OnParametersSet()
-    {
-        if (Poll.Name == null)
-        {
-            Questions.Add(new Question());
-            Answers.Add(new List<Answer>());
-            Answers[Answers.Count - 1].Add(new Answer());
-        }
-    }
 
     //async Task HandleSubmit()
     //{
