@@ -1,10 +1,9 @@
-﻿@page "/create"
-@inject IPollService PollService
+﻿@inject IPollService PollService
 @inject NavigationManager NavigationManager
 @using System.Linq
 
 <h1>Create Poll</h1>
-<hr/>
+<hr />
 
 <EditForm Model="Poll" OnSubmit="HandleSubmit">
     <div class="mb-5 col-5">
@@ -24,7 +23,7 @@
                             <input @bind="Questions[indexI].Text" @bind:event="oninput" class="form-control">
                             <span class="input-group-text" id="basic-addon1">Single Choice?</span>
                             <div class="input-group-text">
-                                <input type="checkbox" @bind="Questions[indexI].SingleChoice" class="form-check-input mt-0" >
+                                <input type="checkbox" @bind="Questions[indexI].SingleChoice" class="form-check-input mt-0">
                             </div>
                         </div>
                     </div>
@@ -39,7 +38,7 @@
                                 <div class="input-group">
                                     <input @bind="Answers[indexI][indexJ].Text" @bind:event="oninput" class="form-control">
                                     <div class="input-group-text">
-                                        <input type="checkbox" @bind="Answers[indexI][indexJ].CorrectAnswer" class="form-check-input mt-0" >
+                                        <input type="checkbox" @bind="Answers[indexI][indexJ].CorrectAnswer" class="form-check-input mt-0">
                                     </div>
                                 </div>
                             </div>
@@ -64,9 +63,11 @@
 <hr />
 
 @code {
-    public Poll Poll { get; set; } = new Poll();
-    public List<Question> Questions { get; set; } = new List<Question>();
-    public List<List<Answer>> Answers { get; set; } = new List<List<Answer>>();
+    [Parameter] public EventCallback HandleSubmit { get; set; }
+    [Parameter] public string Title { get; set; }
+    [Parameter] public Poll Poll { get; set; } = new Poll();
+    [Parameter] public List<Question> Questions { get; set; } = new List<Question>();
+    [Parameter] public List<List<Answer>> Answers { get; set; } = new List<List<Answer>>();
 
     protected override void OnInitialized()
     {
@@ -75,23 +76,23 @@
         Answers[Answers.Count - 1].Add(new Answer());
     }
 
-    async Task HandleSubmit()
-    {
-        if (Poll.Name is null || Poll.Name == "")
-            return;
-        List<Question> questions = Questions.Where(x => x.Text != "").ToList();
-        if (questions.Count == 0)
-            return;
-        for (int j = 0; j<questions.Count; j++)
-        {
-            var answers = new List<Answer>();
-            answers = Answers[j].Where(x => x.Text != "").ToList();
-            if (answers.Count == 0)
-                return;
-            questions[j].Answers = answers;
-        }
-        Poll.Questions = questions;
-        await PollService.CreatePoll(Poll);
-        NavigationManager.NavigateTo($"/");
-    }
+    //async Task HandleSubmit()
+    //{
+    //    if (Poll.Name is null || Poll.Name == "")
+    //        return;
+    //    List<Question> questions = Questions.Where(x => x.Text != "").ToList();
+    //    if (questions.Count == 0)
+    //        return;
+    //    for (int j = 0; j < questions.Count; j++)
+    //    {
+    //        var answers = new List<Answer>();
+    //        answers = Answers[j].Where(x => x.Text != "").ToList();
+    //        if (answers.Count == 0)
+    //            return;
+    //        questions[j].Answers = answers;
+    //    }
+    //    Poll.Questions = questions;
+    //    await PollService.CreatePoll(Poll);
+    //    NavigationManager.NavigateTo($"/");
+    //}
 }
