@@ -6,3 +6,4 @@ bin
 obj
 packages
 .vs/BlazorPoll/v16/.suo
+Server/Properties/launchSettings.json

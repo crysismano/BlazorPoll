@@ -33,12 +33,20 @@ namespace BlazorPoll.Client.Services
 
         public async Task<Question> GetQuestion(int questionId)
         {
-            return await _httpClient.GetFromJsonAsync<Question>($"api/poll/{questionId}");
+            return await _httpClient.GetFromJsonAsync<Question>($"api/poll/GetQuestion/{questionId}");
+        }
+        public async Task<Poll> GetPoll(int pollId)
+        {
+            return await _httpClient.GetFromJsonAsync<Poll>($"api/poll/GetPoll/{pollId}");
         }
 
         public async Task RemovePoll(int pollId)
         {
             await _httpClient.DeleteAsync($"api/poll/{pollId}");
+        }
+        public async Task UpdatePoll(Poll poll)
+        {
+            await _httpClient.PutAsJsonAsync($"api/poll/UpdatePoll", poll);
         }
     }
 }

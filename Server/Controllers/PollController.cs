@@ -65,7 +65,8 @@ namespace BlazorPoll.Server.Controllers
             }
         }
 
-        [HttpGet("{questionId}")]
+        [HttpGet]
+        [Route("[action]/{quesitonId}")]
         public async Task<ActionResult<Question>> GetQuestion(int questionId)
         {
             var question = await _context.Questions.Where(x => x.Id == questionId).Include(x => x.Answers).SingleOrDefaultAsync();
@@ -76,12 +77,31 @@ namespace BlazorPoll.Server.Controllers
             return question;
         }
 
+        [HttpGet]
+        [Route("[action]/{pollId}")]
+        public async Task<ActionResult<Poll>> GetPoll(int pollId)
+        {
+            var poll = await _context.Polls.Where(x => x.Id == pollId).Include(x => x.Questions).ThenInclude(x => x.Answers).SingleOrDefaultAsync();
+            if(poll == null)
+            {
+                return NotFound();
+            }
+            return poll;
+        }
+
         [HttpDelete("{pollId}")]
         public async Task DeletePoll(int pollId)
         {
             var poll = await _context.Polls.Where(x => x.Id == pollId).SingleOrDefaultAsync();
             _context.Polls.Remove(poll);
             await _context.SaveChangesAsync();
+        }
+
+        [HttpPut]
+
+        public async Task UpdatePoll(Poll poll)
+        {
+            
         }
     }
 }
