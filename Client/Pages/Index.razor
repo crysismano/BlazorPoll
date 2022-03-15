@@ -27,6 +27,7 @@ else
                     <td>@p.Name</td>
                     <td>
                         <button class="btn btn-primary" @onclick="()=>StartPoll(p)">Start</button>
+                        <button class="btn btn-secondary" @onclick="()=>EditPoll(p.Id)">Edit</button>
                         <button class="btn btn-danger" @onclick="()=>RemovePoll(p.Id)">Remove</button>
                     </td>
                 </tr>
@@ -37,7 +38,7 @@ else
 
 @code{
 
-    [Parameter] public List<Poll> Polls { get; set; } = new List<Poll>();
+    public List<Poll> Polls { get; set; } = new List<Poll>();
 
     private HubConnection hubConnection;
 
@@ -71,5 +72,9 @@ else
         }
     }
 
+    public void EditPoll(int pollId)
+    {
+        NavigationManager.NavigateTo($"/edit/{pollId}");
+    }
 
 }
