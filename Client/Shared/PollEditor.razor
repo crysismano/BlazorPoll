@@ -65,24 +65,4 @@
     [Parameter] public List<Question> Questions { get; set; }
     [Parameter] public List<List<Answer>> Answers { get; set; }
 
-
-    //async Task HandleSubmit()
-    //{
-    //    if (Poll.Name is null || Poll.Name == "")
-    //        return;
-    //    List<Question> questions = Questions.Where(x => x.Text != "").ToList();
-    //    if (questions.Count == 0)
-    //        return;
-    //    for (int j = 0; j < questions.Count; j++)
-    //    {
-    //        var answers = new List<Answer>();
-    //        answers = Answers[j].Where(x => x.Text != "").ToList();
-    //        if (answers.Count == 0)
-    //            return;
-    //        questions[j].Answers = answers;
-    //    }
-    //    Poll.Questions = questions;
-    //    await PollService.CreatePoll(Poll);
-    //    NavigationManager.NavigateTo($"/");
-    //}
 }
