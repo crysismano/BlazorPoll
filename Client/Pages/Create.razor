@@ -24,14 +24,16 @@
         List<Question> questions = Questions.Where(x => x.Text != "").ToList();
         if (questions.Count == 0)
             return;
+        questions = Questions;
         for (int j = 0; j<questions.Count; j++)
         {
             var answers = new List<Answer>();
             answers = Answers[j].Where(x => x.Text != "").ToList();
-            if (answers.Count == 0)
+            if (answers.Count == 0 && questions[j].Text !="")
                 return;
             questions[j].Answers = answers;
         }
+        questions = questions.Where(x => x.Text != "").ToList();
         Poll.Questions = questions;
         await PollService.CreatePoll(Poll);
         NavigationManager.NavigateTo($"/");

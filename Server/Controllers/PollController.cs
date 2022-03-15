@@ -22,12 +22,12 @@ namespace BlazorPoll.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Poll>>> GetPolls()
         {
-            var result = await _context.Polls.Include(a => a.Questions).ThenInclude(a => a.Answers).ToListAsync();
+            var result = await _context.Polls.Include(a => a.Questions).ThenInclude(a => a.Answers).AsSplitQuery().ToListAsync();
             return result;
         }
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<Poll>> PostPoll([FromBody]Poll poll)
+        public async Task PostPoll([FromBody]Poll poll)
         {
             using (var dbContextTransaction = _context.Database.BeginTransaction())
             {
@@ -42,7 +42,6 @@ namespace BlazorPoll.Server.Controllers
                     dbContextTransaction.Rollback();
                 }
             }
-            return Ok(await _context.Polls.Include(a => a.Questions).ThenInclude(a => a.Answers).ToListAsync());
         }
         [HttpPost]
         [Route("[action]")]
@@ -69,7 +68,7 @@ namespace BlazorPoll.Server.Controllers
         [Route("[action]/{quesitonId}")]
         public async Task<ActionResult<Question>> GetQuestion(int questionId)
         {
-            var question = await _context.Questions.Where(x => x.Id == questionId).Include(x => x.Answers).SingleOrDefaultAsync();
+            var question = await _context.Questions.Where(x => x.Id == questionId).Include(x => x.Answers).AsSplitQuery().SingleOrDefaultAsync();
             if (question == null)
             {
                 return NotFound();
@@ -81,7 +80,7 @@ namespace BlazorPoll.Server.Controllers
         [Route("[action]/{pollId}")]
         public async Task<ActionResult<Poll>> GetPoll(int pollId)
         {
-            var poll = await _context.Polls.Where(x => x.Id == pollId).Include(x => x.Questions).ThenInclude(x => x.Answers).SingleOrDefaultAsync();
+            var poll = await _context.Polls.Where(x => x.Id == pollId).Include(x => x.Questions).ThenInclude(x => x.Answers).AsSplitQuery().SingleOrDefaultAsync();
             if(poll == null)
             {
                 return NotFound();
@@ -98,10 +97,30 @@ namespace BlazorPoll.Server.Controllers
         }
 
         [HttpPut]
-
-        public async Task UpdatePoll(Poll poll)
+        [Route("[action]")]
+        public async Task UpdatePoll([FromBody]Poll poll)
         {
-            
+            var questions = poll.Questions;
+            _context.Update(poll);
+            await _context.SaveChangesAsync();
+            _context.Entry(poll).State = EntityState.Detached;
+            var dbPoll = await _context.Polls.Where(x => x.Id == poll.Id).Include(x => x.Questions).ThenInclude(x => x.Answers).AsSplitQuery().SingleOrDefaultAsync();
+            var questionsToRemove = dbPoll.Questions.Where(x => !questions.Any(y => y.Id == x.Id)).ToList();
+            _context.Questions.RemoveRange(questionsToRemove);
+            await _context.SaveChangesAsync();
+            var answersToKeep = new List<Answer>();
+            foreach(var q in poll.Questions)
+            {
+                answersToKeep = answersToKeep.Concat(q.Answers).ToList();
+            } 
+            var allAnswers = new List<Answer>();
+            foreach(var q in dbPoll.Questions)
+            {
+                allAnswers = allAnswers.Concat(q.Answers).ToList();
+            }
+            var answersToRemove = allAnswers.Where(x => !answersToKeep.Any(y => y.Id == x.Id)).ToList();
+            _context.Answers.RemoveRange(answersToRemove);
+            await _context.SaveChangesAsync();
         }
     }
 }
