@@ -65,7 +65,7 @@ namespace BlazorPoll.Server.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{quesitonId}")]
+        [Route("[action]/{questionId}")]
         public async Task<ActionResult<Question>> GetQuestion(int questionId)
         {
             var question = await _context.Questions.Where(x => x.Id == questionId).Include(x => x.Answers).AsSplitQuery().SingleOrDefaultAsync();
