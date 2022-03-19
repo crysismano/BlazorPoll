@@ -4,7 +4,7 @@
 <EditForm Model="Poll" OnSubmit="HandleSubmit">
     <div class="mb-5 col-5">
         <label class="form-label font-weight-bold">Poll Name</label>
-        <input @bind="Poll.Name" class="form-control"/>
+        <input @bind="Poll.Name" class="form-control" />
     </div>
     @for (int i = 0; i < Questions.Count; i++)
     {
@@ -16,7 +16,7 @@
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="input-group">
-                            <input @bind="Questions[indexI].Text" @bind:event="oninput" class="form-control">
+                            <input value="@Questions[indexI].Text" @oninput="(e) => UpdateQuestion(e.Value.ToString(), indexI)" class="form-control">
                             <span class="input-group-text" id="basic-addon1">Single Choice?</span>
                             <div class="input-group-text">
                                 <input type="checkbox" @bind="Questions[indexI].SingleChoice" class="form-check-input mt-0">
@@ -32,37 +32,73 @@
                             int indexJ = j;
                             <div class="col-md-12 mb-2">
                                 <div class="input-group">
-                                    <input @bind="Answers[indexI][indexJ].Text" @bind:event="oninput" class="form-control">
+                                    <input value="@Answers[indexI][indexJ].Text" @oninput="(e) => UpdateAnswer(e.Value.ToString(), indexI, indexJ)" class="form-control">
                                     <div class="input-group-text">
                                         <input type="checkbox" @bind="Answers[indexI][indexJ].CorrectAnswer" class="form-check-input mt-0">
                                     </div>
                                 </div>
                             </div>
-                            @if (Answers[indexI][Answers[indexI].Count - 1].Text != "")
-                            {
-                                Answers[indexI].Add(new Answer());
-                            }
                         }
                     </div>
                 </div>
             </div>
         </div>
-        @if (Questions[Questions.Count - 1].Text != "")
-        {
-            Questions.Add(new Question());
-            Answers.Add(new List<Answer>());
-            Answers[Answers.Count - 1].Add(new Answer());
-        }
     }
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
 <hr />
 
 @code {
-    [Parameter] public EventCallback HandleSubmit { get; set; }
-    [Parameter] public string Title { get; set; }
-    [Parameter] public Poll Poll { get; set; }
-    [Parameter] public List<Question> Questions { get; set; }
-    [Parameter] public List<List<Answer>> Answers { get; set; }
+        [Parameter] public EventCallback HandleSubmit { get; set; }
+        [Parameter] public string Title { get; set; }
+        [Parameter] public Poll Poll { get; set; }
+        [Parameter] public List<Question> Questions { get; set; }
+        [Parameter] public List<List<Answer>> Answers { get; set; }
 
+    protected override void OnParametersSet()
+    {
+        for (int i = 0; i < Questions.Count; i++)
+        {
+            AddNewAnswer(i);
+        }
+        AddNewQuestion();
+    }
+
+    private void UpdateAnswer(string value, int questionIndex, int answerIndex)
+    {
+        Answers[questionIndex][answerIndex].Text = value;
+        AddNewAnswer(questionIndex);
+    }
+
+    private void UpdateQuestion(string value, int questionIndex)
+    {
+        Questions[questionIndex].Text = value;
+        AddNewQuestion();
+    }
+
+    private void AddNewQuestion()
+    {
+        if (Questions.Count == 0)
+        {
+            return;
+        }
+        if (Questions[Questions.Count - 1].Text != "")
+        {
+            Questions.Add(new Question());
+            Answers.Add(new List<Answer>());
+            Answers[Answers.Count - 1].Add(new Answer());
+        }
+    }
+
+    private void AddNewAnswer(int questionIndex)
+    {
+        if(Answers.Count == 0)
+        {
+            return;
+        }
+        if (Answers[questionIndex][Answers[questionIndex].Count - 1].Text != "")
+        {
+            Answers[questionIndex].Add(new Answer());
+        }
+    }
 }
