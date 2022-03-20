@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Plk.Blazor.DragDrop;
 using System.Linq;
 
 namespace BlazorPoll.Server
@@ -44,6 +45,7 @@ namespace BlazorPoll.Server
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
             });
             services.AddSignalR(options => options.EnableDetailedErrors = true);
+            services.AddBlazorDragDrop();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
