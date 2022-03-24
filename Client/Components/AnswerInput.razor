@@ -1,0 +1,22 @@
+﻿<div class="col-md-12 mb-2">
+    <div class="input-group">
+        <input value="@Answer.Text" @oninput="(e) => UpdateAnswer(e.Value.ToString())" class="form-control">
+        <div class="input-group-text">
+            <input type="checkbox" @bind="Answer.CorrectAnswer" class="form-check-input mt-0">
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public Answer Answer{ get; set; }
+    [Parameter]
+    public EventCallback OnAnswerInputChange{ get; set; }
+    private async Task UpdateAnswer(string value)
+    {
+        Answer.Text = value;
+        await OnAnswerInputChange.InvokeAsync();
+    }
+
+}

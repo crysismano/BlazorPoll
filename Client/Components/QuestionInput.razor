@@ -1,0 +1,62 @@
+﻿
+<div class="col-5">
+    <div class="form-group">
+        <label>@QuestionOrder. Question Text</label>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input value="@Question.Text" @oninput="(e) => UpdateQuestion(e.Value.ToString())" class="form-control">
+                    <span class="input-group-text" id="basic-addon1">Single Choice?</span>
+                    <div class="input-group-text">
+                        <input type="checkbox" @bind="Question.SingleChoice" class="form-check-input mt-0">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Answers</label>
+            <div class="row">
+            @if(Answers != null)
+            {
+                <Dropzone Items=Answers TItem="Answer">
+                    <AnswerInput Answer="@context" OnAnswerInputChange="AddNewAnswer"></AnswerInput>
+                </Dropzone>
+            }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Question Question{ get; set; }
+    [Parameter]
+    public int QuestionOrder{ get; set; }
+    [Parameter]
+    public EventCallback OnQuestionInputChange{ get; set; }
+
+    public List<Answer> Answers{ get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Answers = Question.Answers.ToList();
+    }
+
+    private void AddNewAnswer()
+    {
+        //if(Answers.Count == 0)
+        //{
+        //    return;
+        //}
+        if (Answers[Answers.Count - 1].Text != "")
+        {
+            Answers.Add(new Answer());
+        }
+        Question.Answers = Answers;
+    }
+    private async Task UpdateQuestion(string value)
+    {
+        Question.Text = value;
+        await OnQuestionInputChange.InvokeAsync();
+    }
+}

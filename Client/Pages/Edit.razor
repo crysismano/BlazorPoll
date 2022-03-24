@@ -3,22 +3,17 @@
 @inject IPollService PollService
 @inject NavigationManager NavigationManager 
 
-<PollEditor Poll="Poll" Questions="Questions" Answers="Answers" Title="Edit" HandleSubmit="HandleSubmit" />
+<PollEditor Poll="Poll" Questions="Questions" Title="Edit" HandleSubmit="HandleSubmit" />
 
 @code {
     [Parameter] public int PollId { get; set; }
     public Poll Poll { get; set; } = new Poll();
     public List<Question> Questions { get; set; } = new List<Question>();
-    public List<List<Answer>> Answers { get; set; } = new List<List<Answer>>();
 
     protected override async Task OnInitializedAsync()
     {
         Poll = await PollService.GetPoll(PollId);
         Questions = Poll.Questions.ToList();
-        for(int i = 0; i < Questions.Count; i++)
-        {
-            Answers.Add(Questions[i].Answers.ToList());
-        }
     }
 
     async Task HandleSubmit()
@@ -29,13 +24,13 @@
         if (questions.Count == 0)
             return;
         questions = Questions;
-        for (int j = 0; j < questions.Count; j++)
+        foreach(var q in questions)
         {
-            var answers = new List<Answer>();
-            answers = Answers[j].Where(x => x.Text != "").ToList();
-            if (answers.Count == 0 && questions[j].Text != "")
+            var nonEmptyAnswers = q.Answers.Where(x => x.Text != "").ToList();
+            if(nonEmptyAnswers.Count == 0)
+            {
                 return;
-            questions[j].Answers = answers;
+            }
         }
         questions = questions.Where(x => x.Text != "").ToList();
         Poll.Questions = questions;
