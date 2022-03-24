@@ -23,7 +23,6 @@
         List<Question> questions = Questions.Where(x => x.Text != "").ToList();
         if (questions.Count == 0)
             return;
-        questions = Questions;
         foreach(var q in questions)
         {
             var nonEmptyAnswers = q.Answers.Where(x => x.Text != "").ToList();
@@ -31,6 +30,7 @@
             {
                 return;
             }
+            q.Answers = nonEmptyAnswers;
         }
         questions = questions.Where(x => x.Text != "").ToList();
         Poll.Questions = questions;
