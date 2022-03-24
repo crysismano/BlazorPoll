@@ -6,7 +6,7 @@
         <label class="form-label font-weight-bold">Poll Name</label>
         <input @bind="Poll.Name" class="form-control" />
     </div>
-    <Dropzone Context="questionContext" Items="Questions" TItem="Question">
+    <Dropzone Context="questionContext" Items="Questions" TItem="Question" OnItemDrop=ReCalculateQuestionOrders>
         <QuestionInput Question="@questionContext" OnQuestionInputChange="AddNewQuestion"></QuestionInput>
     </Dropzone>
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -37,8 +37,17 @@
         if (Questions[Questions.Count - 1].Text != "")
         {
             Questions.Add(new Question());
+            Questions[Questions.Count - 1].Order = Questions.Count;
             Questions[Questions.Count - 1].Answers = new List<Answer>();
             Questions[Questions.Count - 1].Answers.Add(new Answer());
+        }
+    }
+
+    private void ReCalculateQuestionOrders()
+    {
+        for(int i = 0; i < Questions.Count; i++)
+        {
+            Questions[i].Order = i + 1;
         }
     }
 

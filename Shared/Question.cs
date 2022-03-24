@@ -18,5 +18,7 @@ namespace BlazorPoll.Shared
         [Required]
         public int PollId { get; set; }
         public Poll Poll { get; set; }
+        [Required]
+        public int Order { get; set; }
     }
 }

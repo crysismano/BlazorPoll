@@ -12,6 +12,7 @@
     protected override void OnInitialized()
     {
         Questions.Add(new Question());
+        Questions[0].Order = 1;
         Questions[0].Answers = new List<Answer>();
     }
 

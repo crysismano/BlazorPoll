@@ -19,5 +19,7 @@ namespace BlazorPoll.Shared
         [Required]
         public bool CorrectAnswer { get; set; } = false;
         public int Votes { get; set; }
+        [Required]
+        public int Order { get; set; }
     }
 }
