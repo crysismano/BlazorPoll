@@ -23,7 +23,10 @@
     {
         foreach(var q in Questions)
         {
-            q.Answers.Add(new Answer());
+            if (q.Answers.ToList()[q.Answers.Count - 1].Text != "")
+            {
+                q.Answers.Add(new Answer());
+            }
         }
         AddNewQuestion();
     }

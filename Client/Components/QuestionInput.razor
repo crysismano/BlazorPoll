@@ -1,7 +1,7 @@
 ﻿
 <div class="col-5">
     <div class="form-group">
-        <label>@Question.Order Question Text</label>
+        <label>@Question.Order. Question Text</label>
         <div class="row mb-3">
             <div class="col-md-12">
                 <div class="input-group">
@@ -18,8 +18,8 @@
             <div class="row">
             @if(Answers != null)
             {
-                <Dropzone Items=Answers TItem="Answer">
-                    <AnswerInput Answer="@context" OnAnswerInputChange="AddNewAnswer"></AnswerInput>
+                <Dropzone Items=Answers Context="answerContext" TItem="Answer">
+                    <AnswerInput Answer="@answerContext" OnAnswerInputChange="AddNewAnswer"></AnswerInput>
                 </Dropzone>
             }
             </div>
