@@ -25,7 +25,7 @@
         {
             if (q.Answers.ToList()[q.Answers.Count - 1].Text != "")
             {
-                q.Answers.Add(new Answer());
+                q.Answers.Add(new Answer(){Order = q.Answers.Count + 1});
             }
         }
         AddNewQuestion();
@@ -42,7 +42,7 @@
             Questions.Add(new Question());
             Questions[Questions.Count - 1].Order = Questions.Count;
             Questions[Questions.Count - 1].Answers = new List<Answer>();
-            Questions[Questions.Count - 1].Answers.Add(new Answer());
+            Questions[Questions.Count - 1].Answers.Add(new Answer(){Order = 1});
         }
     }
 

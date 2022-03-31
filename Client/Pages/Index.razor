@@ -45,6 +45,14 @@ else
     protected override async Task OnInitializedAsync()
     {
         Polls = await PollService.GetPolls();
+        foreach(var p in Polls)
+        {
+            p.Questions =  p.Questions.OrderBy(x => x.Order).ToList();
+            foreach(var q in p.Questions)
+            {
+                q.Answers = q.Answers.OrderBy(x => x.Order).ToList();
+            }
+        }
         hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
             .Build();

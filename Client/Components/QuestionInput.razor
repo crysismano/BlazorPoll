@@ -18,7 +18,7 @@
             <div class="row">
             @if(Answers != null)
             {
-                <Dropzone Items=Answers Context="answerContext" TItem="Answer">
+                <Dropzone Items=Answers Context="answerContext" TItem="Answer" OnItemDrop=ReCalculateAnswersOrder>
                     <AnswerInput Answer="@answerContext" OnAnswerInputChange="AddNewAnswer"></AnswerInput>
                 </Dropzone>
             }
@@ -50,7 +50,7 @@
         //}
         if (Answers[Answers.Count - 1].Text != "")
         {
-            Answers.Add(new Answer());
+            Answers.Add(new Answer(){Order = Answers.Count + 1});
         }
         Question.Answers = Answers;
     }
@@ -58,5 +58,13 @@
     {
         Question.Text = value;
         await OnQuestionInputChange.InvokeAsync();
+    }
+
+    private void ReCalculateAnswersOrder()
+    {
+        for(int i = 0; i < Answers.Count; i++)
+        {
+            Answers[i].Order = i + 1;
+        }
     }
 }

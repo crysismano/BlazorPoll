@@ -14,7 +14,7 @@
         Questions.Add(new Question());
         Questions[0].Order = 1;
         Questions[0].Answers = new List<Answer>();
-        Questions[0].Answers.Add(new Answer());
+        Questions[0].Answers.Add(new Answer(){Order = 1});
     }
 
     async Task HandleSubmit()

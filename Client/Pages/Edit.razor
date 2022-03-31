@@ -13,6 +13,11 @@
     protected override async Task OnInitializedAsync()
     {
         Poll = await PollService.GetPoll(PollId);
+        Poll.Questions = Poll.Questions.OrderBy(x => x.Order).ToList();
+        foreach(var q in Poll.Questions)
+        {
+            q.Answers = q.Answers.OrderBy(x => x.Order).ToList();
+        }
         Questions = Poll.Questions.ToList();
     }
 
