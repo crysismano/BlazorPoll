@@ -1,14 +1,20 @@
 ﻿
 <div class="col-5">
     <div class="form-group">
-        <label>@Question.Order. Question Text</label>
+        <label>@Question.Order. Question</label>
+        <div>
+            <input type="checkbox" @bind="Question.SingleChoice" id="single-choice" name="single-choice">
+            <label for="single-choice">single choice</label>
+        </div>
         <div class="row mb-3">
             <div class="col-md-12">
                 <div class="input-group">
                     <input value="@Question.Text" @oninput="(e) => UpdateQuestion(e.Value.ToString())" class="form-control">
-                    <span class="input-group-text" id="basic-addon1">Single Choice?</span>
                     <div class="input-group-text">
-                        <input type="checkbox" @bind="Question.SingleChoice" class="form-check-input mt-0">
+                        <button style="border:none"><i class="fa-solid fa-copy"></i></button>
+                    </div>
+                    <div class="input-group-text">
+                        <button style="border:none"><i class="fa-solid fa-x"></i></button>
                     </div>
                 </div>
             </div>
