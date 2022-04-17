@@ -1,0 +1,98 @@
+﻿
+<div class="col-5">
+    <div class="form-group">
+        <label>@Question.Order. Question</label>
+        <div>
+            <input type="checkbox" @bind="Question.SingleChoice" id="single-choice" name="single-choice">
+            <label for="single-choice">single choice</label>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input value="@Question.Text" @oninput="(e) => UpdateQuestion(e.Value.ToString())" class="form-control">
+                    <div class="input-group-text">
+                        <button type="button" @onclick="() => DuplicateQuestion()" style="border:none"><i class="fa-solid fa-copy"></i></button>
+                    </div>
+                    <div class="input-group-text">
+                        <button type="button" @onclick="() => DeleteQuestion()" style="border:none"><i class="fa-solid fa-x"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Answers</label>
+            <div class="row">
+            @if(Answers != null)
+            {
+                <Dropzone Items=Answers Context="answerContext" TItem="Answer" OnItemDrop=ReCalculateAnswersOrder>
+                    <AnswerInput Answer="@answerContext" OnAnswerInputChange="AddNewAnswer" OnDeleteButtonClicked="(a)=>RemoveAnswer(a)"></AnswerInput>
+                </Dropzone>
+            }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Question Question{ get; set; }
+    [Parameter]
+    public int QuestionOrder{ get; set; }
+    [Parameter]
+    public EventCallback OnQuestionInputChange{ get; set; }
+    [Parameter]
+    public EventCallback<Question> OnDeleteButtonClicked{ get; set; }
+    [Parameter]
+    public EventCallback<Question> OnDuplicateButtonClicked{ get; set; }
+
+    public List<Answer> Answers{ get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Answers = Question.Answers.ToList();
+    }
+
+    private void AddNewAnswer()
+    {
+        //if(Answers.Count == 0)
+        //{
+        //    return;
+        //}
+        if (Answers[Answers.Count - 1].Text != "")
+        {
+            Answers.Add(new Answer(){Order = Answers.Count + 1});
+        }
+        Question.Answers = Answers;
+    }
+    private async Task UpdateQuestion(string value)
+    {
+        Question.Text = value;
+        await OnQuestionInputChange.InvokeAsync();
+    }
+
+    private void ReCalculateAnswersOrder()
+    {
+        for(int i = 0; i < Answers.Count; i++)
+        {
+            Answers[i].Order = i + 1;
+        }
+    }
+
+    private void RemoveAnswer(Answer answer)
+    {
+        if (Answers.Count > 1)
+        {
+            Answers.Remove(answer);
+        }
+    }
+
+    private async Task DeleteQuestion()
+    {
+        await OnDeleteButtonClicked.InvokeAsync(Question);
+    }
+
+    private async Task DuplicateQuestion()
+    {
+        await OnDuplicateButtonClicked.InvokeAsync(Question);
+    }
+}

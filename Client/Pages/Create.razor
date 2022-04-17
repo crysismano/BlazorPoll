@@ -3,18 +3,18 @@
 @inject NavigationManager NavigationManager
 @using System.Linq
 
-<PollEditor Poll="Poll" Questions="Questions" Answers="Answers" Title="Create" HandleSubmit="HandleSubmit"/>
+<PollEditor Poll="Poll" Questions="Questions" Title="Create" HandleSubmit="HandleSubmit"/>
 
 @code {
     public Poll Poll { get; set; } = new Poll();
     public List<Question> Questions { get; set; } = new List<Question>();
-    public List<List<Answer>> Answers { get; set; } = new List<List<Answer>>();
 
     protected override void OnInitialized()
     {
         Questions.Add(new Question());
-        Answers.Add(new List<Answer>());
-        Answers[Answers.Count - 1].Add(new Answer());
+        Questions[0].Order = 1;
+        Questions[0].Answers = new List<Answer>();
+        Questions[0].Answers.Add(new Answer(){Order = 1});
     }
 
     async Task HandleSubmit()
@@ -24,14 +24,14 @@
         List<Question> questions = Questions.Where(x => x.Text != "").ToList();
         if (questions.Count == 0)
             return;
-        questions = Questions;
-        for (int j = 0; j<questions.Count; j++)
+        foreach(var q in questions)
         {
-            var answers = new List<Answer>();
-            answers = Answers[j].Where(x => x.Text != "").ToList();
-            if (answers.Count == 0 && questions[j].Text !="")
+            var nonEmptyAnswers = q.Answers.Where(x => x.Text != "").ToList();
+            if(nonEmptyAnswers.Count == 0)
+            {
                 return;
-            questions[j].Answers = answers;
+            }
+            q.Answers = nonEmptyAnswers;
         }
         questions = questions.Where(x => x.Text != "").ToList();
         Poll.Questions = questions;

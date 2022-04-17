@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Plk.Blazor.DragDrop;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -24,6 +25,7 @@ namespace BlazorPoll.Client
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddBlazoredLocalStorage(config =>
             config.JsonSerializerOptions.WriteIndented = true);
+            builder.Services.AddBlazorDragDrop();
             await builder.Build().RunAsync();
         }
     }
