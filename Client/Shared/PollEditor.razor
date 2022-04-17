@@ -7,7 +7,12 @@
         <input @bind="Poll.Name" class="form-control" />
     </div>
     <Dropzone Context="questionContext" Items="Questions" TItem="Question" OnItemDrop=ReCalculateQuestionOrders>
-        <QuestionInput Question="@questionContext" OnQuestionInputChange="AddNewQuestion"></QuestionInput>
+        <QuestionInput
+            Question="@questionContext"
+            OnDeleteButtonClicked="(q) => RemoveQuestion(q)"
+            OnQuestionInputChange="AddNewQuestion"
+            OnDuplicateButtonClicked="(q) => DuplicateQuestion(q)">
+        </QuestionInput>
     </Dropzone>
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
@@ -52,6 +57,19 @@
         {
             Questions[i].Order = i + 1;
         }
+    }
+
+    private void RemoveQuestion(Question question)
+    {
+        if(Questions.Count > 1)
+        {
+            Questions.Remove(question);
+        }
+    }
+
+    private void DuplicateQuestion(Question question)
+    {
+        Questions.Add(question);
     }
 
 }

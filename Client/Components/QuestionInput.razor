@@ -11,10 +11,10 @@
                 <div class="input-group">
                     <input value="@Question.Text" @oninput="(e) => UpdateQuestion(e.Value.ToString())" class="form-control">
                     <div class="input-group-text">
-                        <button style="border:none"><i class="fa-solid fa-copy"></i></button>
+                        <button type="button" @onclick="() => DuplicateQuestion()" style="border:none"><i class="fa-solid fa-copy"></i></button>
                     </div>
                     <div class="input-group-text">
-                        <button style="border:none"><i class="fa-solid fa-x"></i></button>
+                        <button type="button" @onclick="() => DeleteQuestion()" style="border:none"><i class="fa-solid fa-x"></i></button>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
             @if(Answers != null)
             {
                 <Dropzone Items=Answers Context="answerContext" TItem="Answer" OnItemDrop=ReCalculateAnswersOrder>
-                    <AnswerInput Answer="@answerContext" OnAnswerInputChange="AddNewAnswer"></AnswerInput>
+                    <AnswerInput Answer="@answerContext" OnAnswerInputChange="AddNewAnswer" OnDeleteButtonClicked="(a)=>RemoveAnswer(a)"></AnswerInput>
                 </Dropzone>
             }
             </div>
@@ -40,6 +40,10 @@
     public int QuestionOrder{ get; set; }
     [Parameter]
     public EventCallback OnQuestionInputChange{ get; set; }
+    [Parameter]
+    public EventCallback<Question> OnDeleteButtonClicked{ get; set; }
+    [Parameter]
+    public EventCallback<Question> OnDuplicateButtonClicked{ get; set; }
 
     public List<Answer> Answers{ get; set; }
 
@@ -72,5 +76,23 @@
         {
             Answers[i].Order = i + 1;
         }
+    }
+
+    private void RemoveAnswer(Answer answer)
+    {
+        if (Answers.Count > 1)
+        {
+            Answers.Remove(answer);
+        }
+    }
+
+    private async Task DeleteQuestion()
+    {
+        await OnDeleteButtonClicked.InvokeAsync(Question);
+    }
+
+    private async Task DuplicateQuestion()
+    {
+        await OnDuplicateButtonClicked.InvokeAsync(Question);
     }
 }
