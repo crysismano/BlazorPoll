@@ -9,26 +9,52 @@
 }
 else
 {
-    <h2>@Question.Text</h2>
+    <h2 class="text-center">@Question.Text</h2>
     <hr />
     <dl class="row">
-        @foreach (var a in Question.Answers)
+        @{int index = 0;}
+        @foreach (var a in Answers)
         {
-
             <dt class="col-3">
-                @a.Text:
+                @if (_isShowingAnswers || _isShowingCorrectAnswer) 
+                {
+                    @a.Text
+                }
             </dt>
             <dd class="col-9">
-                @a.Votes @if (_isShowingCorrectAnswer && a.CorrectAnswer)
-                {<i class="fas fa-check"></i>}
+                <div style="width: 100%;">
+                    <div style="width: @Percentages[@index];height: 30px; background-color: #FFFF00;">
+                    @a.Votes 
+                    @if (_isShowingCorrectAnswer && a.CorrectAnswer)
+                    {
+                        <i class="fas fa-check"></i>
+                    }
+                    </div>
+                </div>
             </dd>
+            index = index + 1;
         }
     </dl>
+    <div class="text-center">
+        <div class="text-center">
+        Votes: @TotalVotes
+        </div>
+        <button @onclick="GetNextQuestion" type="button" class="btn btn-primary">Next</button>
+        <button @onclick="ToggleShowAnswers" type="button" class="btn btn-info">Show/Hide Answers</button>
+    </div>
+    
 }
 @code {
     HubConnection hubConnection;
     public Question Question { get; set; }
-    private bool _isShowingCorrectAnswer;
+    public List<Answer> Answers{ get; set; }
+    private bool _isShowingCorrectAnswer = false;
+    private bool _isShowingAnswers = false;
+    public int TotalVotes { get; set; }
+    List<string> Percentages{ get; set; }
+    public string ButtonText { get; set; }
+    private int _currentQuestionIdx;
+    public Poll Poll{ get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,10 +62,13 @@ else
             .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
             .Build();
 
-        hubConnection.On<Question>("ReceiveQuestion", (question) =>
+        hubConnection.On<Question, int>("ReceiveQuestion", (question, currentQuestionIdx) =>
         {
             _isShowingCorrectAnswer = false;
             Question = question;
+            Answers = question.Answers.ToList();
+            _currentQuestionIdx = currentQuestionIdx;
+            CalcVotes(Answers);
             StateHasChanged();
         });
 
@@ -52,10 +81,75 @@ else
         hubConnection.On("Update", async () =>
         {
             Question = await PollService.GetQuestion(Question.Id);
+            Answers = Question.Answers.ToList();
+            CalcVotes(Answers);
+            StateHasChanged();
+        });
+
+        hubConnection.On<Poll, int>("ReceivePoll", (poll, currentQuestionIdx) =>
+        {
+            Poll = poll;
+            _currentQuestionIdx = currentQuestionIdx;
+            Question = poll.Questions.ToList()[currentQuestionIdx];
+            Answers = Question.Answers.ToList();
+            CalcVotes(Answers);
             StateHasChanged();
         });
 
         await hubConnection.StartAsync();
+    }
+
+    public void CalcVotes(List<Answer> answers)
+    {
+        int sum = 0;
+        foreach(var a in answers)
+        {
+
+            sum += a.Votes;
+        }
+        TotalVotes = sum;
+        List<string> percentages = new List<string>();
+        foreach(var a in answers)
+        {
+            if(a.Votes == 0)
+            {
+                percentages.Add("1%");
+            }
+            else
+            {
+                var percentage = (double)a.Votes/sum*100;
+                percentages.Add(percentage.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)+"%");
+            }
+        }
+        Percentages = percentages;
+    }
+
+    public async Task GetNextQuestion()
+    {
+        if (_isShowingCorrectAnswer)
+        {
+            if (_currentQuestionIdx + 1 < Poll.Questions.Count)
+            {
+                await hubConnection.SendAsync("GetNextQuestion");
+                _currentQuestionIdx++;
+                _isShowingCorrectAnswer = !_isShowingCorrectAnswer;
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/");
+            }
+        }
+        else
+        {
+            await hubConnection.SendAsync("ShowResult");
+            _isShowingCorrectAnswer = !_isShowingCorrectAnswer;
+        }
+        StateHasChanged();
+    }
+
+    private void ToggleShowAnswers()
+    {
+        _isShowingAnswers = !_isShowingAnswers;
     }
 
     public async ValueTask DisposeAsync()

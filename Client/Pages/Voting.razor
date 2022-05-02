@@ -65,7 +65,7 @@ else
             .WithUrl(NavigationManager.ToAbsoluteUri("/pollhub"))
             .Build();
 
-        hubConnection.On<Question>("ReceiveQuestion", async (question) =>
+        hubConnection.On<Question, int>("ReceiveQuestion", async (question, currentQuestionIdx) =>
         {
             int previousQuestionId = await LocalStorage.GetItemAsync<int>("PreviousQuestionId");
             if (previousQuestionId == question.Id)

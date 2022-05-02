@@ -19,7 +19,7 @@ namespace BlazorPoll.Server.Hubs
             _currentQuestionIdx = 0;
             ActivePoll = poll;
             await Clients.All.SendAsync("ReceivePoll", ActivePoll, _currentQuestionIdx);
-            await Clients.All.SendAsync("ReceiveQuestion", ActivePoll.Questions.FirstOrDefault());
+            await Clients.All.SendAsync("ReceiveQuestion", ActivePoll.Questions.FirstOrDefault(), _currentQuestionIdx);
         }
 
         public async Task GetNextQuestion()
@@ -28,7 +28,7 @@ namespace BlazorPoll.Server.Hubs
             {
                 _isShowingResult = false;
                 _currentQuestionIdx++;
-                await Clients.All.SendAsync("ReceiveQuestion", ActivePoll.Questions.ElementAtOrDefault(_currentQuestionIdx));
+                await Clients.All.SendAsync("ReceiveQuestion", ActivePoll.Questions.ElementAtOrDefault(_currentQuestionIdx),_currentQuestionIdx);
             }
         }
 
@@ -47,9 +47,9 @@ namespace BlazorPoll.Server.Hubs
         {
             if (ActivePoll is not null)
             {
-                await Clients.Caller.SendAsync("Update");
                 await Clients.Caller.SendAsync("ReceivePoll", ActivePoll, _currentQuestionIdx);
                 await Clients.Caller.SendAsync("ReceiveQuestion", ActivePoll.Questions.ElementAtOrDefault(_currentQuestionIdx));
+                await Clients.Caller.SendAsync("Update");
                 if (_isShowingResult)
                 {
                     await Clients.Caller.SendAsync("ShowResult");

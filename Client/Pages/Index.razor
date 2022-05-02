@@ -4,7 +4,7 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JS
 
-<h3>Polls</h3>
+<h1 class="text-center">Polls</h1>
 
 @if (Polls.Count == 0)
 {
@@ -15,8 +15,8 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Poll Name</th>
+                <th>Poll </th>
+                <th>Number of questions</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,8 +24,8 @@ else
             @foreach (var p in Polls)
             {
                 <tr>
-                    <td>@p.Id</td>
                     <td>@p.Name</td>
+                    <td>@p.Questions.Count</td>
                     <td>
                         <button class="btn btn-primary" @onclick="()=>StartPoll(p)">Start</button>
                         <button class="btn btn-secondary" @onclick="()=>EditPoll(p.Id)">Edit</button>
@@ -63,7 +63,7 @@ else
     private async Task StartPoll(Poll poll)
     {
         await hubConnection.SendAsync("SendPoll", poll);
-        NavigationManager.NavigateTo($"/pollcontrol");
+        NavigationManager.NavigateTo($"/result");
     }
 
     private async Task RemovePoll(Poll poll)

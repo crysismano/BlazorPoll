@@ -11,10 +11,10 @@
                 <div class="input-group">
                     <input value="@Question.Text" @oninput="(e) => UpdateQuestion(e.Value.ToString())" class="form-control">
                     <div class="input-group-text">
-                        <button type="button" @onclick="() => DuplicateQuestion()" style="border:none"><i class="fa-solid fa-copy"></i></button>
+                        <button tabindex="-1" type="button" @onclick="() => DuplicateQuestion()" style="border:none"><i class="fa-solid fa-copy"></i></button>
                     </div>
                     <div class="input-group-text">
-                        <button type="button" @onclick="() => DeleteQuestion()" style="border:none"><i class="fa-solid fa-x"></i></button>
+                        <button tabindex="-1" type="button" @onclick="() => DeleteQuestion()" style="border:none"><i class="fa-solid fa-x"></i></button>
                     </div>
                 </div>
             </div>
