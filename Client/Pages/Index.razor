@@ -6,9 +6,13 @@
 
 <h1 class="text-center">Polls</h1>
 
-@if (Polls.Count == 0)
+@if (Polls == null)
 {
-    <span>It's Empty!</span>
+    <span>Loading...</span>
+}
+else if(Polls.Count == 0)
+{
+    <span>There are no Polls made yet.</span>
 }
 else
 {
@@ -39,7 +43,7 @@ else
 
 @code{
 
-    public List<Poll> Polls { get; set; } = new List<Poll>();
+    public List<Poll> Polls { get; set; }
 
     private HubConnection hubConnection;
 

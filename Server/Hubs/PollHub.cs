@@ -48,7 +48,7 @@ namespace BlazorPoll.Server.Hubs
             if (ActivePoll is not null)
             {
                 await Clients.Caller.SendAsync("ReceivePoll", ActivePoll, _currentQuestionIdx);
-                await Clients.Caller.SendAsync("ReceiveQuestion", ActivePoll.Questions.ElementAtOrDefault(_currentQuestionIdx));
+                await Clients.Caller.SendAsync("ReceiveQuestion", ActivePoll.Questions.ElementAtOrDefault(_currentQuestionIdx), _currentQuestionIdx);
                 await Clients.Caller.SendAsync("Update");
                 if (_isShowingResult)
                 {

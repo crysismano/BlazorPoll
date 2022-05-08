@@ -5,7 +5,7 @@
 
 @if (Question is null)
 {
-    <p>Please wait..</p>
+    <p>Waiting for the presenter to start a poll...</p>
 }
 else
 {
@@ -18,17 +18,17 @@ else
             <dt class="col-3">
                 @if (_isShowingAnswers || _isShowingCorrectAnswer) 
                 {
-                    @a.Text
-                }
-            </dt>
-            <dd class="col-9">
-                <div style="width: 100%;">
-                    <div style="width: @Percentages[@index];height: 30px; background-color: #FFFF00;">
-                    @a.Votes 
+                    <span>@a.Text</span>
                     @if (_isShowingCorrectAnswer && a.CorrectAnswer)
                     {
                         <i class="fas fa-check"></i>
                     }
+                }
+            </dt>
+            <dd class="col-9">
+                <div style="width: 100%;">
+                    <div style="width: @Percentages[@index];height: 30px; background-color: #32CD32;">
+                    @a.Votes 
                     </div>
                 </div>
             </dd>
