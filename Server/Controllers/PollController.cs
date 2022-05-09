@@ -47,9 +47,9 @@ namespace BlazorPoll.Server.Controllers
                 }
             }
         }
-        [HttpPost]
+        [HttpPut]
         [Route("[action]")]
-        public async Task PostVote([FromBody]Vote v)
+        public async Task PutVote([FromBody]Vote v)
         {
             using (var dbContextTransaction = _context.Database.BeginTransaction())
             {
