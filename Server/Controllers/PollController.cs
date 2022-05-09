@@ -22,8 +22,12 @@ namespace BlazorPoll.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Poll>>> GetPolls()
         {
-            var result = await _context.Polls.Include(a => a.Questions).ThenInclude(a => a.Answers).AsSplitQuery().ToListAsync();
-            return result;
+            var result = await _context.Polls
+                .Include(a => a.Questions)
+                .ThenInclude(a => a.Answers)
+                .AsSplitQuery()
+                .ToListAsync();
+            return Ok(result);
         }
         [HttpPost]
         [Route("[action]")]
@@ -53,7 +57,8 @@ namespace BlazorPoll.Server.Controllers
                 {
                     foreach (var ai in v.AnswerIds)
                     {
-                        await _context.Answers.Where(x => x.Id == ai).UpdateFromQueryAsync(x => new Answer { Votes = x.Votes + 1 });
+                        await _context.Answers.Where(x => x.Id == ai)
+                            .UpdateFromQueryAsync(x => new Answer { Votes = x.Votes + 1 });
                     }
                     dbContextTransaction.Commit();
                 }
@@ -68,12 +73,16 @@ namespace BlazorPoll.Server.Controllers
         [Route("[action]/{questionId}")]
         public async Task<ActionResult<Question>> GetQuestion(int questionId)
         {
-            var question = await _context.Questions.Where(x => x.Id == questionId).Include(x => x.Answers).AsSplitQuery().SingleOrDefaultAsync();
+            var question = await _context.Questions
+                .Where(x => x.Id == questionId)
+                .Include(x => x.Answers)
+                .AsSplitQuery()
+                .SingleOrDefaultAsync();
             if (question == null)
             {
                 return NotFound();
             }
-            return question;
+            return Ok(question);
         }
 
         [HttpGet]
@@ -85,7 +94,7 @@ namespace BlazorPoll.Server.Controllers
             {
                 return NotFound();
             }
-            return poll;
+            return Ok(poll);
         }
 
         [HttpDelete("{pollId}")]
