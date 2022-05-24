@@ -38,6 +38,10 @@
             q.Answers = nonEmptyAnswers;
         }
         questions = questions.Where(x => x.Text != "").ToList();
+        foreach(var (q,i) in questions.Select((q, i) => (q, i)))
+        {
+            q.Order = i + 1;
+        }
         Poll.Questions = questions;
         await PollService.UpdatePoll(Poll);
         NavigationManager.NavigateTo($"/");

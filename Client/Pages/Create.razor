@@ -1,6 +1,7 @@
 ﻿@page "/create"
 @inject IPollService PollService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 @using System.Linq
 
 <PollEditor Poll="Poll" Questions="Questions" Title="Create" HandleSubmit="HandleSubmit"/>
@@ -20,20 +21,30 @@
     async Task HandleSubmit()
     {
         if (Poll.Name is null || Poll.Name == "")
+        {
+            await JS.InvokeVoidAsync("alert", "Please, fill the Poll Name field");
             return;
+        }
         List<Question> questions = Questions.Where(x => x.Text != "").ToList();
-        if (questions.Count == 0)
+        if (questions.Count == 0){
+            await JS.InvokeVoidAsync("alert", "You have to make atleast one Question");
             return;
+        }
         foreach(var q in questions)
         {
             var nonEmptyAnswers = q.Answers.Where(x => x.Text != "").ToList();
             if(nonEmptyAnswers.Count == 0)
             {
+                await JS.InvokeVoidAsync("alert", "Please, atleast give one answer to every question");
                 return;
             }
             q.Answers = nonEmptyAnswers;
         }
         questions = questions.Where(x => x.Text != "").ToList();
+        foreach(var (q,i) in questions.Select((q, i) => (q, i)))
+        {
+            q.Order = i + 1;
+        }
         Poll.Questions = questions;
         await PollService.CreatePoll(Poll);
         NavigationManager.NavigateTo($"/");

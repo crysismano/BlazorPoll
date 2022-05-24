@@ -109,6 +109,14 @@ else
         }
         TotalVotes = sum;
         List<string> percentages = new List<string>();
+        int highestVoteCount = 0;
+        foreach(var a in answers)
+        {
+            if(a.Votes > highestVoteCount)
+            {
+                highestVoteCount = a.Votes;
+            }
+        }
         foreach(var a in answers)
         {
             if(a.Votes == 0)
@@ -117,7 +125,7 @@ else
             }
             else
             {
-                var percentage = (double)a.Votes/sum*100;
+                var percentage = (double)a.Votes/highestVoteCount*100;
                 percentages.Add(percentage.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)+"%");
             }
         }

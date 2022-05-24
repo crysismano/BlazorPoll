@@ -69,7 +69,19 @@
 
     private void DuplicateQuestion(Question question)
     {
-        Questions.Add(question);
+        var newQuestion = new Question();
+        newQuestion.Order = Questions.Count + 1;
+        List<Answer> newAnswers = new List<Answer>();
+        foreach(var a in question.Answers)
+        {
+            var newAnswer = new Answer();
+            newAnswer.Text = a.Text;
+            newAnswer.Order = newAnswers.Count + 1;
+            newAnswers.Add(newAnswer);
+        }
+        newQuestion.Answers = newAnswers;
+        newQuestion.Text = question.Text;
+        Questions.Add(newQuestion);
     }
 
 }
